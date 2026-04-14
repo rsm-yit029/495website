@@ -2,7 +2,7 @@
   "hash": "9bb5a2434f5143a7c7ffdb55a0e5027f",
   "result": {
     "engine": "jupyter",
-    "markdown": "---\ntitle: \"Analysis of Cars\"\nauthor: Your Name\ndate: today\n---\n\n# Header\n\nLet's investigate the relationship between fuel efficiency (`mpg`) and engine displacement (`disp`) from the `mtcars` dataset. Those variables have a correlation of `r cor(mtcars$mpg, mtcars$disp) |> format(digits=2)`.\n\n## Sub-Header\n\nHere is a plot:\n\n::: {#99589fe6 .cell execution_count=1}\n``` {.python .cell-code}\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom pydataset import data\n\nmtcars = data(\"mtcars\")\n\nplt.scatter(mtcars[\"mpg\"], mtcars[\"disp\"])\nplt.xlabel(\"mpg\")\nplt.ylabel(\"disp\")\nplt.show()\n```\n:::\n\n\n",
+    "markdown": "---\ntitle: \"Analysis of Cars\"\nauthor: Your Name\ndate: today\n---\n\n# Header\n\nLet's investigate the relationship between fuel efficiency (`mpg`) and engine displacement (`disp`) from the `mtcars` dataset. Those variables have a correlation of `r cor(mtcars$mpg, mtcars$disp) |> format(digits=2)`.\n\n## Sub-Header\n\nHere is a plot:\n\n::: {#63ee7de0 .cell execution_count=1}\n``` {.python .cell-code}\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom pydataset import data\n\nmtcars = data(\"mtcars\")\n\nplt.scatter(mtcars[\"mpg\"], mtcars[\"disp\"])\nplt.xlabel(\"mpg\")\nplt.ylabel(\"disp\")\nplt.show()\n```\n:::\n\n\n",
     "supporting": [
       "index_files"
     ],
