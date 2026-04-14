@@ -1,0 +1,18 @@
+---
+title: "Ria Tang"
+image: "files/photo.jpg"
+about:
+  template: jolla
+  links:
+    - icon: envelope
+      href: mailto:yit029@ucsd.edu
+    - icon: linkedin
+      href: https://www.linkedin.com/in/yihui-tang-5036843ab/
+---
+
+Welcome to my website!
+---
+
+This is a Quarto website.
+
+To learn more about Quarto websites visit <https://quarto.org/docs/websites>.

@@ -1,0 +1,27 @@
+project:
+  type: website
+  output-dir: docs 
+
+website:
+  title: "Ria Tang"
+  navbar:
+    left:
+      - href: index.qmd
+        text: About
+      - href: resume.qmd  
+        text: Resume
+      - href: projects.qmd  
+        text: Projects  
+      - href: tools.qmd
+        text: Tools       
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true
+
+
+

@@ -1,0 +1,28 @@
+---
+title: "Analysis of Cars"
+author: Your Name
+date: today
+---
+
+# Header
+
+Let's investigate the relationship between fuel efficiency (`mpg`) and engine displacement (`disp`) from the `mtcars` dataset. Those variables have a correlation of `r cor(mtcars$mpg, mtcars$disp) |> format(digits=2)`.
+
+## Sub-Header
+
+Here is a plot:
+
+```{python}
+#| eval: false 
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from pydataset import data
+
+mtcars = data("mtcars")
+
+plt.scatter(mtcars["mpg"], mtcars["disp"])
+plt.xlabel("mpg")
+plt.ylabel("disp")
+plt.show()
+```

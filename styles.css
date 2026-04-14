@@ -1,0 +1,34 @@
+/* css styles */
+.tool-grid {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.tool-card {
+  flex: 1 1 250px;
+  background: #f8f9fa;
+  border: 1px solid #dcdcdc;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.tool-card h2 {
+  margin-top: 0;
+  color: #2c3e50;
+}
+
+.tool-card p {
+  line-height: 1.6;
+}
+
+.grid > div {
+  background: #f8f9fa;
+  border: 1px solid #dcdcdc;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
+}

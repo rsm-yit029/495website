@@ -1,0 +1,31 @@
+---
+title: "My Favorite Digital Tools"
+---
+
+These are three tools that I often use for coding, learning, and productivity.
+
+::: {.grid}
+::: {.g-col-12 .g-col-md-4 .tool-card}
+### Python
+Python is a popular programming language used for data analysis, visualization, automation, and machine learning.
+
+I like Python because it is easy to read and very useful for many kinds of projects.
+:::
+
+::: {.g-col-12 .g-col-md-4 .tool-card}
+### GitHub
+GitHub is a platform where people store, manage, and share code.
+
+I use GitHub to organize projects, save version history, and collaborate with others.
+:::
+
+::: {.g-col-12 .g-col-md-4 .tool-card}
+### ChatGPT
+ChatGPT is an AI assistant that helps with writing, brainstorming, coding, and explaining difficult topics.
+
+I like using ChatGPT because it helps me work faster and learn in a more interactive way.
+:::
+:::
+
+## Final Thoughts
+These tools support different parts of my workflow. Python helps me build things, GitHub helps me manage them, and ChatGPT helps me think and learn.
