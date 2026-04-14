@@ -5,5 +5,11 @@
       "/projects/project1/index.html",
       "/projects/project2/index.html"
     ]
+  },
+  {
+    "listing": "/blog.html",
+    "items": [
+      "/posts/hw1_completed.html"
+    ]
   }
 ]

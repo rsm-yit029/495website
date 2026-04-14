@@ -19,5 +19,14 @@
   },
   "tools.qmd": {
     "tools.html": "eda0e80e"
+  },
+  "hw1_questions.qmd": {
+    "hw1_questions.html": "7b8989c5"
+  },
+  "blog.qmd": {
+    "blog.html": "e1b69027"
+  },
+  "posts/hw1_completed.qmd": {
+    "hw1_completed.html": "ca9dc0d1"
   }
 }
