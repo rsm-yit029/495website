@@ -231,7 +231,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>But larger ratios do not help</strong>: the 2:1 and 3:1 treatments produced virtually identical results to the 1:1 treatment — the difference in match ratio had no statistically significant effect.</li>
 <li><strong>Political context matters</strong>: the match effect appears to be driven mainly by donors in states that voted for George W. Bush in 2004, with little evidence of an effect in blue states.</li>
 </ul>
-<p>These findings have direct practical implications: organizations spending resources to secure higher match ratios may be wasting money. The mere existence of a match — not its size — is what moves donors.</p>
+<p>These findings suggest that securing a larger match ratio may not be the most efficient use of fundraising resources. The mere existence of a match — not its size — appears to be what moves donors.</p>
 <p>In the sections below, we replicate the paper’s key findings using the publicly available dataset. We reproduce Table 1 (balance checks confirming successful randomization), Table 2A Panel A (the main treatment effects on response rate and donation amount), and Table 3 Column 1 (the regression estimates of the match effect on the probability of giving). We also extend the paper’s results by visualizing the red/blue state heterogeneity, which the authors present only in tabular form.</p>
 <hr>
 </section>
@@ -245,55 +245,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="table1" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable labels match Table 1 of the paper exactly.</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: dormant = 1 means the donor had already given in 2005 prior to the mailing</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># (confirmed by mean = 0.523, matching the paper's "Percent already donated in 2005").</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>balance_vars <span class="op">=</span> {</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'MRM2'</span>:    <span class="st">'Months since last donation'</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'HPA'</span>:     <span class="st">'Highest previous contribution ($)'</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'freq'</span>:    <span class="st">'Number of prior donations'</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'years'</span>:   <span class="st">'Years since first donation'</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dormant'</span>: <span class="st">'Already donated in 2005 (%)'</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'female'</span>:  <span class="st">'Female (%)'</span>,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'couple'</span>:  <span class="st">'Couple (%)'</span>,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'red0'</span>:    <span class="st">'Lives in red state (%)'</span>,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'redcty'</span>:  <span class="st">'Lives in red county (%)'</span>,</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'nonlit'</span>:  <span class="st">'State nonlitigation activity'</span>,</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'cases'</span>:   <span class="st">'State court cases'</span>,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, label <span class="kw">in</span> balance_vars.items():</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    treat <span class="op">=</span> df.loc[df[<span class="st">'treatment'</span>] <span class="op">==</span> <span class="dv">1</span>, var]</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    ctrl  <span class="op">=</span> df.loc[df[<span class="st">'control'</span>]   <span class="op">==</span> <span class="dv">1</span>, var]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: dormant = 1 means the donor had already given in 2005 prior to the mailing.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirmed by mean = 0.523, which matches the paper's "Percent already donated in 2005".</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>balance_vars <span class="op">=</span> {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'MRM2'</span>:    <span class="st">'Months since last donation'</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'HPA'</span>:     <span class="st">'Highest previous contribution ($)'</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'freq'</span>:    <span class="st">'Number of prior donations'</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'years'</span>:   <span class="st">'Years since first donation'</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'dormant'</span>: <span class="st">'Already donated in 2005 (%)'</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'female'</span>:  <span class="st">'Female (%)'</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'couple'</span>:  <span class="st">'Couple (%)'</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'red0'</span>:    <span class="st">'Lives in red state (%)'</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'redcty'</span>:  <span class="st">'Lives in red county (%)'</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'nonlit'</span>:  <span class="st">'State nonlitigation activity'</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'cases'</span>:   <span class="st">'State court cases'</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, label <span class="kw">in</span> balance_vars.items():</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># dropna() prevents NaN p-values from missing observations in some variables</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    treat <span class="op">=</span> df.loc[df[<span class="st">'treatment'</span>] <span class="op">==</span> <span class="dv">1</span>, var].dropna()</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    ctrl  <span class="op">=</span> df.loc[df[<span class="st">'control'</span>]   <span class="op">==</span> <span class="dv">1</span>, var].dropna()</span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    _, p  <span class="op">=</span> stats.ttest_ind(treat, ctrl, equal_var<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    rows.append({</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Variable'</span>:      label,</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">'All'</span>:           <span class="ss">f"</span><span class="sc">{</span>df[var]<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss"> (</span><span class="sc">{</span>df[var]<span class="sc">.</span>std()<span class="sc">:.3f}</span><span class="ss">)"</span>,</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Treatment'</span>:     <span class="ss">f"</span><span class="sc">{</span>treat<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss"> (</span><span class="sc">{</span>treat<span class="sc">.</span>std()<span class="sc">:.3f}</span><span class="ss">)"</span>,</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Control'</span>:       <span class="ss">f"</span><span class="sc">{</span>ctrl<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss"> (</span><span class="sc">{</span>ctrl<span class="sc">.</span>std()<span class="sc">:.3f}</span><span class="ss">)"</span>,</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">'p-value'</span>:       <span class="ss">f"</span><span class="sc">{</span>p<span class="sc">:.3f}</span><span class="ss">"</span>,</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    rows.append([</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        label,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>df[var]<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss"> (</span><span class="sc">{</span>df[var]<span class="sc">.</span>std()<span class="sc">:.3f}</span><span class="ss">)"</span>,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>treat<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss"> (</span><span class="sc">{</span>treat<span class="sc">.</span>std()<span class="sc">:.3f}</span><span class="ss">)"</span>,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>ctrl<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss"> (</span><span class="sc">{</span>ctrl<span class="sc">.</span>std()<span class="sc">:.3f}</span><span class="ss">)"</span>,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>p<span class="sc">:.3f}</span><span class="ss">"</span>,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    ])</span>
 <span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>t1 <span class="op">=</span> pd.DataFrame(rows)</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(t1.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">N: All = </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">:,}</span><span class="ss">  |  Treatment = </span><span class="sc">{</span><span class="bu">int</span>(df[<span class="st">'treatment'</span>].<span class="bu">sum</span>())<span class="sc">:,}</span><span class="ss">  |  Control = </span><span class="sc">{</span><span class="bu">int</span>(df[<span class="st">'control'</span>].<span class="bu">sum</span>())<span class="sc">:,}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> [<span class="st">'Variable'</span>, <span class="st">'All'</span>, <span class="st">'Treatment'</span>, <span class="st">'Control'</span>, <span class="st">'p-value'</span>]</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tabulate(rows, headers<span class="op">=</span>headers, tablefmt<span class="op">=</span><span class="st">'pipe'</span>))</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">N: All = 50,083  |  Treatment = </span><span class="sc">{</span><span class="bu">int</span>(df[<span class="st">'treatment'</span>].<span class="bu">sum</span>())<span class="sc">:,}</span><span class="ss">  |  Control = </span><span class="sc">{</span><span class="bu">int</span>(df[<span class="st">'control'</span>].<span class="bu">sum</span>())<span class="sc">:,}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>                         Variable             All       Treatment         Control p-value
-       Months since last donation 13.007 (12.081) 13.012 (12.086) 12.998 (12.074)     nan
-Highest previous contribution ($) 59.385 (71.177) 59.597 (73.052) 58.960 (67.269)   0.332
-        Number of prior donations  8.039 (11.394)  8.035 (11.390)  8.047 (11.404)   0.912
-       Years since first donation   6.098 (5.503)   6.078 (5.442)   6.136 (5.625)     nan
-      Already donated in 2005 (%)   0.523 (0.499)   0.524 (0.499)   0.523 (0.499)   0.862
-                       Female (%)   0.278 (0.448)   0.275 (0.447)   0.283 (0.450)     nan
-                       Couple (%)   0.092 (0.289)   0.091 (0.288)   0.093 (0.290)     nan
-           Lives in red state (%)   0.404 (0.491)   0.407 (0.491)   0.399 (0.490)     nan
-          Lives in red county (%)   0.510 (0.500)   0.512 (0.500)   0.507 (0.500)     nan
-     State nonlitigation activity   2.474 (1.962)   2.485 (1.966)   2.453 (1.953)     nan
-                State court cases   1.500 (1.155)   1.499 (1.157)   1.502 (1.152)     nan
+<pre><code>| Variable                          | All             | Treatment       | Control         |   p-value |
+|:----------------------------------|:----------------|:----------------|:----------------|----------:|
+| Months since last donation        | 13.007 (12.081) | 13.012 (12.086) | 12.998 (12.074) |     0.905 |
+| Highest previous contribution ($) | 59.385 (71.177) | 59.597 (73.052) | 58.960 (67.269) |     0.332 |
+| Number of prior donations         | 8.039 (11.394)  | 8.035 (11.390)  | 8.047 (11.404)  |     0.912 |
+| Years since first donation        | 6.098 (5.503)   | 6.078 (5.442)   | 6.136 (5.625)   |     0.275 |
+| Already donated in 2005 (%)       | 0.523 (0.499)   | 0.524 (0.499)   | 0.523 (0.499)   |     0.862 |
+| Female (%)                        | 0.278 (0.448)   | 0.275 (0.447)   | 0.283 (0.450)   |     0.08  |
+| Couple (%)                        | 0.092 (0.289)   | 0.091 (0.288)   | 0.093 (0.290)   |     0.56  |
+| Lives in red state (%)            | 0.404 (0.491)   | 0.407 (0.491)   | 0.399 (0.490)   |     0.06  |
+| Lives in red county (%)           | 0.510 (0.500)   | 0.512 (0.500)   | 0.507 (0.500)   |     0.366 |
+| State nonlitigation activity      | 2.474 (1.962)   | 2.485 (1.966)   | 2.453 (1.953)   |     0.088 |
+| State court cases                 | 1.500 (1.155)   | 1.499 (1.157)   | 1.502 (1.152)   |     0.733 |
 
-N: All = 50,130  |  Treatment = 33,396  |  Control = 16,687</code></pre>
+N: All = 50,083  |  Treatment = 33,396  |  Control = 16,687</code></pre>
 </div>
 </div>
 <p><strong>Interpretation:</strong> The p-values across all variables are well above conventional significance thresholds, and the treatment and control means are nearly identical in every row. These results closely match Table 1 of the paper, confirming that the randomization was successful. Any subsequent differences in giving behavior can therefore be plausibly attributed to the match treatment rather than pre-existing differences between groups.</p>
@@ -306,7 +307,7 @@ N: All = 50,130  |  Treatment = 33,396  |  Control = 16,687</code></pre>
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> group_stats(mask, label):</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    sub <span class="op">=</span> df[mask]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    sub     <span class="op">=</span> df[mask]</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    gave_m  <span class="op">=</span> sub[<span class="st">'gave'</span>].mean()</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    gave_se <span class="op">=</span> sub[<span class="st">'gave'</span>].sem()</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    amt_m   <span class="op">=</span> sub[<span class="st">'amount'</span>].mean()</span>
@@ -314,33 +315,35 @@ N: All = 50,130  |  Treatment = 33,396  |  Control = 16,687</code></pre>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    cond    <span class="op">=</span> sub.loc[sub[<span class="st">'gave'</span>] <span class="op">==</span> <span class="dv">1</span>, <span class="st">'amount'</span>]</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    cond_m  <span class="op">=</span> cond.mean()</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    cond_se <span class="op">=</span> cond.sem()</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Group'</span>:              label,</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'N'</span>:                  <span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(sub)<span class="sc">:,}</span><span class="ss">"</span>,</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Response Rate'</span>:      <span class="ss">f"</span><span class="sc">{</span>gave_m<span class="sc">:.3f}</span><span class="ss"> (</span><span class="sc">{</span>gave_se<span class="sc">:.3f}</span><span class="ss">)"</span>,</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Amount Uncond. ($)'</span>: <span class="ss">f"</span><span class="sc">{</span>amt_m<span class="sc">:.3f}</span><span class="ss"> (</span><span class="sc">{</span>amt_se<span class="sc">:.3f}</span><span class="ss">)"</span>,</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Amount Cond. ($)'</span>:   <span class="ss">f"</span><span class="sc">{</span>cond_m<span class="sc">:.3f}</span><span class="ss"> (</span><span class="sc">{</span>cond_se<span class="sc">:.3f}</span><span class="ss">)"</span>,</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        label,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(sub)<span class="sc">:,}</span><span class="ss">"</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>gave_m<span class="sc">:.3f}</span><span class="ss"> (</span><span class="sc">{</span>gave_se<span class="sc">:.3f}</span><span class="ss">)"</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>amt_m<span class="sc">:.3f}</span><span class="ss"> (</span><span class="sc">{</span>amt_se<span class="sc">:.3f}</span><span class="ss">)"</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>cond_m<span class="sc">:.3f}</span><span class="ss"> (</span><span class="sc">{</span>cond_se<span class="sc">:.3f}</span><span class="ss">)"</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    ]</span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>groups <span class="op">=</span> [</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    (df[<span class="st">'control'</span>]   <span class="op">==</span> <span class="dv">1</span>,                         <span class="st">'Control'</span>),</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    (df[<span class="st">'treatment'</span>] <span class="op">==</span> <span class="dv">1</span>,                         <span class="st">'Treatment (any match)'</span>),</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    (df[<span class="st">'control'</span>]   <span class="op">==</span> <span class="dv">1</span>,                          <span class="st">'Control'</span>),</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    (df[<span class="st">'treatment'</span>] <span class="op">==</span> <span class="dv">1</span>,                          <span class="st">'Treatment (any match)'</span>),</span>
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    ((df[<span class="st">'ratio'</span>]    <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (df[<span class="st">'treatment'</span>] <span class="op">==</span> <span class="dv">1</span>), <span class="st">'Ratio 1:1'</span>),</span>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    ((df[<span class="st">'ratio'</span>]    <span class="op">==</span> <span class="dv">2</span>) <span class="op">&amp;</span> (df[<span class="st">'treatment'</span>] <span class="op">==</span> <span class="dv">1</span>), <span class="st">'Ratio 2:1'</span>),</span>
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    ((df[<span class="st">'ratio'</span>]    <span class="op">==</span> <span class="dv">3</span>) <span class="op">&amp;</span> (df[<span class="st">'treatment'</span>] <span class="op">==</span> <span class="dv">1</span>), <span class="st">'Ratio 3:1'</span>),</span>
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>t2a <span class="op">=</span> pd.DataFrame([group_stats(mask, label) <span class="cf">for</span> mask, label <span class="kw">in</span> groups])</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(t2a.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Note: standard errors in parentheses."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> [<span class="st">'Group'</span>, <span class="st">'N'</span>, <span class="st">'Response Rate'</span>, <span class="st">'Amount Uncond. ($)'</span>, <span class="st">'Amount Cond. ($)'</span>]</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> [group_stats(mask, label) <span class="cf">for</span> mask, label <span class="kw">in</span> groups]</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tabulate(rows, headers<span class="op">=</span>headers, tablefmt<span class="op">=</span><span class="st">'pipe'</span>))</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Note: standard errors in parentheses."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>                Group      N Response Rate Amount Uncond. ($) Amount Cond. ($)
-              Control 16,687 0.018 (0.001)      0.813 (0.063)   45.540 (2.397)
-Treatment (any match) 33,396 0.022 (0.001)      0.967 (0.049)   43.872 (1.549)
-            Ratio 1:1 11,133 0.021 (0.001)      0.937 (0.089)   45.143 (3.099)
-            Ratio 2:1 11,134 0.023 (0.001)      1.026 (0.089)   45.337 (2.725)
-            Ratio 3:1 11,129 0.023 (0.001)      0.938 (0.077)   41.252 (2.222)
+<pre><code>| Group                 |      N | Response Rate   | Amount Uncond. ($)   | Amount Cond. ($)   |
+|:----------------------|-------:|:----------------|:---------------------|:-------------------|
+| Control               | 16,687 | 0.018 (0.001)   | 0.813 (0.063)        | 45.540 (2.397)     |
+| Treatment (any match) | 33,396 | 0.022 (0.001)   | 0.967 (0.049)        | 43.872 (1.549)     |
+| Ratio 1:1             | 11,133 | 0.021 (0.001)   | 0.937 (0.089)        | 45.143 (3.099)     |
+| Ratio 2:1             | 11,134 | 0.023 (0.001)   | 1.026 (0.089)        | 45.337 (2.725)     |
+| Ratio 3:1             | 11,129 | 0.023 (0.001)   | 0.938 (0.077)        | 41.252 (2.222)     |
 
 Note: standard errors in parentheses.</code></pre>
 </div>
@@ -376,43 +379,47 @@ Note: standard errors in parentheses.</code></pre>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    stars <span class="op">=</span> <span class="st">'***'</span> <span class="cf">if</span> p <span class="op">&lt;</span> <span class="fl">0.01</span> <span class="cf">else</span> <span class="st">'**'</span> <span class="cf">if</span> p <span class="op">&lt;</span> <span class="fl">0.05</span> <span class="cf">else</span> <span class="st">'*'</span> <span class="cf">if</span> p <span class="op">&lt;</span> <span class="fl">0.1</span> <span class="cf">else</span> <span class="st">''</span></span>
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"</span><span class="sc">{</span>c<span class="sc">:.3f}{</span>stars<span class="sc">}</span><span class="ss">"</span>, <span class="ss">f"(</span><span class="sc">{</span>se<span class="sc">:.3f}</span><span class="ss">)"</span></span>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, label <span class="kw">in</span> [</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'treatment'</span>,         <span class="st">'Treatment'</span>),</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'treatment:ratio2'</span>,  <span class="st">'Treatment x 2:1 ratio'</span>),</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'treatment:ratio3'</span>,  <span class="st">'Treatment x 3:1 ratio'</span>),</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'treatment:size25'</span>,  <span class="st">'Treatment x $25K threshold'</span>),</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'treatment:size50'</span>,  <span class="st">'Treatment x $50K threshold'</span>),</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'treatment:size100'</span>, <span class="st">'Treatment x $100K threshold'</span>),</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'treatment:askd2'</span>,   <span class="st">'Treatment x medium ask'</span>),</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'treatment:askd3'</span>,   <span class="st">'Treatment x high ask'</span>),</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Intercept'</span>,         <span class="st">'Constant'</span>),</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>]:</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    c1, s1 <span class="op">=</span> fmt(m1, var)</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    c2, s2 <span class="op">=</span> fmt(m2, var)</span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">'Variable'</span>: label, <span class="st">'Col (1)'</span>: c1, <span class="st">'SE'</span>: s1, <span class="st">'Col (2)'</span>: c2, <span class="st">'SE '</span>: s2})</span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>t3 <span class="op">=</span> pd.DataFrame(rows)</span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(t3.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">R-squared:  Col(1) = </span><span class="sc">{</span>m1<span class="sc">.</span>rsquared<span class="sc">:.4f}</span><span class="ss">   Col(2) = </span><span class="sc">{</span>m2<span class="sc">.</span>rsquared<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"N = </span><span class="sc">{</span><span class="bu">int</span>(m1.nobs)<span class="sc">:,}</span><span class="ss">"</span>)</span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"* p&lt;0.10  ** p&lt;0.05  *** p&lt;0.01  |  HC1 robust standard errors"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>var_labels <span class="op">=</span> [</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'treatment'</span>,         <span class="st">'Treatment'</span>),</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'treatment:ratio2'</span>,  <span class="st">'Treatment x 2:1 ratio'</span>),</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'treatment:ratio3'</span>,  <span class="st">'Treatment x 3:1 ratio'</span>),</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'treatment:size25'</span>,  <span class="st">'Treatment x $25K threshold'</span>),</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'treatment:size50'</span>,  <span class="st">'Treatment x $50K threshold'</span>),</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'treatment:size100'</span>, <span class="st">'Treatment x $100K threshold'</span>),</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'treatment:askd2'</span>,   <span class="st">'Treatment x medium ask'</span>),</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'treatment:askd3'</span>,   <span class="st">'Treatment x high ask'</span>),</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Intercept'</span>,         <span class="st">'Constant'</span>),</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, label <span class="kw">in</span> var_labels:</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    c1, s1 <span class="op">=</span> fmt(m1, var)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    c2, s2 <span class="op">=</span> fmt(m2, var)</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    rows.append([label, c1, s1, c2, s2])</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> [<span class="st">'Variable'</span>, <span class="st">'Col (1)'</span>, <span class="st">'SE'</span>, <span class="st">'Col (2)'</span>, <span class="st">'SE'</span>]</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tabulate(rows, headers<span class="op">=</span>headers, tablefmt<span class="op">=</span><span class="st">'pipe'</span>))</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">R-squared:  Col(1) = </span><span class="sc">{</span>m1<span class="sc">.</span>rsquared<span class="sc">:.4f}</span><span class="ss">   Col(2) = </span><span class="sc">{</span>m2<span class="sc">.</span>rsquared<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"N = </span><span class="sc">{</span><span class="bu">int</span>(m1.nobs)<span class="sc">:,}</span><span class="ss">"</span>)</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n\\</span><span class="st">* p&lt;0.10  </span><span class="ch">\\</span><span class="st">*</span><span class="ch">\\</span><span class="st">* p&lt;0.05  </span><span class="ch">\\</span><span class="st">*</span><span class="ch">\\</span><span class="st">*</span><span class="ch">\\</span><span class="st">* p&lt;0.01  |  HC1 robust standard errors"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>                   Variable  Col (1)      SE  Col (2)     SE 
-                  Treatment 0.004*** (0.001)    0.002 (0.002)
-      Treatment x 2:1 ratio      ---     ---    0.002 (0.002)
-      Treatment x 3:1 ratio      ---     ---    0.002 (0.002)
- Treatment x $25K threshold      ---     ---   -0.001 (0.002)
- Treatment x $50K threshold      ---     ---    0.000 (0.002)
-Treatment x $100K threshold      ---     ---   -0.000 (0.002)
-     Treatment x medium ask      ---     ---    0.001 (0.002)
-       Treatment x high ask      ---     ---    0.002 (0.002)
-                   Constant 0.018*** (0.001) 0.018*** (0.001)
+<pre><code>| Variable                    | Col (1)   | SE      | Col (2)   | SE      |
+|:----------------------------|:----------|:--------|:----------|:--------|
+| Treatment                   | 0.004***  | (0.001) | 0.002     | (0.002) |
+| Treatment x 2:1 ratio       | ---       | ---     | 0.002     | (0.002) |
+| Treatment x 3:1 ratio       | ---       | ---     | 0.002     | (0.002) |
+| Treatment x $25K threshold  | ---       | ---     | -0.001    | (0.002) |
+| Treatment x $50K threshold  | ---       | ---     | 0.000     | (0.002) |
+| Treatment x $100K threshold | ---       | ---     | -0.000    | (0.002) |
+| Treatment x medium ask      | ---       | ---     | 0.001     | (0.002) |
+| Treatment x high ask        | ---       | ---     | 0.002     | (0.002) |
+| Constant                    | 0.018***  | (0.001) | 0.018***  | (0.001) |
 
 R-squared:  Col(1) = 0.0002   Col(2) = 0.0002
 N = 50,083
-* p&lt;0.10  ** p&lt;0.05  *** p&lt;0.01  |  HC1 robust standard errors</code></pre>
+
+\* p&lt;0.10  \*\* p&lt;0.05  \*\*\* p&lt;0.01  |  HC1 robust standard errors</code></pre>
 </div>
 </div>
 <p><strong>Interpretation:</strong> The <code>treatment</code> coefficient in Column 1 is 0.004 and highly significant, matching the value reported in Table 3 Column 1 of the paper. This implies that receiving a match offer raises the probability of donating by approximately 0.4 percentage points off a baseline rate of 1.8% — a relative increase of around 22%. In Column 2, the interaction terms for the 2:1 and 3:1 ratios are small and statistically insignificant, consistent with the paper’s finding that larger ratios add nothing beyond the 1:1 baseline. The sub-treatment interactions for threshold size and ask amount are similarly close to zero.</p>

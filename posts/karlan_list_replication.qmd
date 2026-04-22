@@ -47,9 +47,9 @@ The results were striking --- and largely contrary to fundraising conventional w
   states that voted for George W. Bush in 2004, with little evidence of an effect in
   blue states.
 
-These findings have direct practical implications: organizations spending resources to
-secure higher match ratios may be wasting money. The mere existence of a match --- not its
-size --- is what moves donors.
+These findings suggest that securing a larger match ratio may not be the most efficient
+use of fundraising resources. The mere existence of a match --- not its size --- appears
+to be what moves donors.
 
 In the sections below, we replicate the paper's key findings using the publicly available
 dataset. We reproduce Table 1 (balance checks confirming successful randomization),
@@ -71,10 +71,15 @@ import numpy as np
 from scipy import stats
 import statsmodels.formula.api as smf
 import matplotlib.pyplot as plt
+from tabulate import tabulate
 import warnings
 warnings.filterwarnings('ignore')
 
 df = pd.read_stata("AERtables1-5.dta")
+
+# The full dataset has 50,130 rows but 47 have missing treatment/control flags.
+# We restrict to the 50,083 observations used in the paper throughout.
+df = df[(df['treatment'] == 1) | (df['control'] == 1)].copy()
 ```
 
 ---
@@ -89,9 +94,8 @@ worked, none of the differences should be statistically significant.
 ```{python}
 #| label: table1
 
-# Variable labels match Table 1 of the paper exactly.
-# Note: dormant = 1 means the donor had already given in 2005 prior to the mailing
-# (confirmed by mean = 0.523, matching the paper's "Percent already donated in 2005").
+# Note: dormant = 1 means the donor had already given in 2005 prior to the mailing.
+# Confirmed by mean = 0.523, which matches the paper's "Percent already donated in 2005".
 balance_vars = {
     'MRM2':    'Months since last donation',
     'HPA':     'Highest previous contribution ($)',
@@ -108,20 +112,21 @@ balance_vars = {
 
 rows = []
 for var, label in balance_vars.items():
-    treat = df.loc[df['treatment'] == 1, var]
-    ctrl  = df.loc[df['control']   == 1, var]
+    # dropna() prevents NaN p-values from missing observations in some variables
+    treat = df.loc[df['treatment'] == 1, var].dropna()
+    ctrl  = df.loc[df['control']   == 1, var].dropna()
     _, p  = stats.ttest_ind(treat, ctrl, equal_var=False)
-    rows.append({
-        'Variable':      label,
-        'All':           f"{df[var].mean():.3f} ({df[var].std():.3f})",
-        'Treatment':     f"{treat.mean():.3f} ({treat.std():.3f})",
-        'Control':       f"{ctrl.mean():.3f} ({ctrl.std():.3f})",
-        'p-value':       f"{p:.3f}",
-    })
+    rows.append([
+        label,
+        f"{df[var].mean():.3f} ({df[var].std():.3f})",
+        f"{treat.mean():.3f} ({treat.std():.3f})",
+        f"{ctrl.mean():.3f} ({ctrl.std():.3f})",
+        f"{p:.3f}",
+    ])
 
-t1 = pd.DataFrame(rows)
-print(t1.to_string(index=False))
-print(f"\nN: All = {len(df):,}  |  Treatment = {int(df['treatment'].sum()):,}  |  Control = {int(df['control'].sum()):,}")
+headers = ['Variable', 'All', 'Treatment', 'Control', 'p-value']
+print(tabulate(rows, headers=headers, tablefmt='pipe'))
+print(f"\nN: All = 50,083  |  Treatment = {int(df['treatment'].sum()):,}  |  Control = {int(df['control'].sum()):,}")
 ```
 
 **Interpretation:** The p-values across all variables are well above conventional
@@ -144,7 +149,7 @@ full sample.
 #| label: table2a
 
 def group_stats(mask, label):
-    sub = df[mask]
+    sub     = df[mask]
     gave_m  = sub['gave'].mean()
     gave_se = sub['gave'].sem()
     amt_m   = sub['amount'].mean()
@@ -152,24 +157,25 @@ def group_stats(mask, label):
     cond    = sub.loc[sub['gave'] == 1, 'amount']
     cond_m  = cond.mean()
     cond_se = cond.sem()
-    return {
-        'Group':              label,
-        'N':                  f"{len(sub):,}",
-        'Response Rate':      f"{gave_m:.3f} ({gave_se:.3f})",
-        'Amount Uncond. ($)': f"{amt_m:.3f} ({amt_se:.3f})",
-        'Amount Cond. ($)':   f"{cond_m:.3f} ({cond_se:.3f})",
-    }
+    return [
+        label,
+        f"{len(sub):,}",
+        f"{gave_m:.3f} ({gave_se:.3f})",
+        f"{amt_m:.3f} ({amt_se:.3f})",
+        f"{cond_m:.3f} ({cond_se:.3f})",
+    ]
 
 groups = [
-    (df['control']   == 1,                         'Control'),
-    (df['treatment'] == 1,                         'Treatment (any match)'),
+    (df['control']   == 1,                          'Control'),
+    (df['treatment'] == 1,                          'Treatment (any match)'),
     ((df['ratio']    == 1) & (df['treatment'] == 1), 'Ratio 1:1'),
     ((df['ratio']    == 2) & (df['treatment'] == 1), 'Ratio 2:1'),
     ((df['ratio']    == 3) & (df['treatment'] == 1), 'Ratio 3:1'),
 ]
 
-t2a = pd.DataFrame([group_stats(mask, label) for mask, label in groups])
-print(t2a.to_string(index=False))
+headers = ['Group', 'N', 'Response Rate', 'Amount Uncond. ($)', 'Amount Cond. ($)']
+rows = [group_stats(mask, label) for mask, label in groups]
+print(tabulate(rows, headers=headers, tablefmt='pipe'))
 print("\nNote: standard errors in parentheses.")
 ```
 
@@ -213,8 +219,7 @@ def fmt(model, var):
     stars = '***' if p < 0.01 else '**' if p < 0.05 else '*' if p < 0.1 else ''
     return f"{c:.3f}{stars}", f"({se:.3f})"
 
-rows = []
-for var, label in [
+var_labels = [
     ('treatment',         'Treatment'),
     ('treatment:ratio2',  'Treatment x 2:1 ratio'),
     ('treatment:ratio3',  'Treatment x 3:1 ratio'),
@@ -224,16 +229,19 @@ for var, label in [
     ('treatment:askd2',   'Treatment x medium ask'),
     ('treatment:askd3',   'Treatment x high ask'),
     ('Intercept',         'Constant'),
-]:
+]
+
+rows = []
+for var, label in var_labels:
     c1, s1 = fmt(m1, var)
     c2, s2 = fmt(m2, var)
-    rows.append({'Variable': label, 'Col (1)': c1, 'SE': s1, 'Col (2)': c2, 'SE ': s2})
+    rows.append([label, c1, s1, c2, s2])
 
-t3 = pd.DataFrame(rows)
-print(t3.to_string(index=False))
+headers = ['Variable', 'Col (1)', 'SE', 'Col (2)', 'SE']
+print(tabulate(rows, headers=headers, tablefmt='pipe'))
 print(f"\nR-squared:  Col(1) = {m1.rsquared:.4f}   Col(2) = {m2.rsquared:.4f}")
 print(f"N = {int(m1.nobs):,}")
-print("* p<0.10  ** p<0.05  *** p<0.01  |  HC1 robust standard errors")
+print("\n\\* p<0.10  \\*\\* p<0.05  \\*\\*\\* p<0.01  |  HC1 robust standard errors")
 ```
 
 **Interpretation:** The `treatment` coefficient in Column 1 is 0.004 and highly
