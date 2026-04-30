@@ -182,7 +182,7 @@ print(f"95% Confidence interval      : [{ci_lower:.4f}, {ci_upper:.4f}]")
 
 The bootstrapped and analytical standard errors are very close to each other — the bootstrap "discovers" the right answer without needing a formula, purely from the data.
 
-Our **95% confidence interval** says: given our data, we estimate that CTA A's sign-up rate exceeds CTA B's by somewhere between {ci_lower*100:.1f}% and {ci_upper*100:.1f}% percentage points. Since the entire interval sits above zero, this is strong evidence that CTA A genuinely outperforms CTA B.
+Our **95% confidence interval** says: given our data, we estimate that CTA A's sign-up rate exceeds CTA B's by somewhere between `{python} f"{ci_lower*100:.1f}"`% and `{python} f"{ci_upper*100:.1f}"`% — a range that lies entirely above zero. This is strong evidence that CTA A genuinely outperforms CTA B.
 
 ---
 
@@ -353,6 +353,6 @@ print(f"Nominal false positive rate (single test) : 5.0%")
 print(f"Empirical false positive rate (peeking)   : {empirical_fpr*100:.1f}%")
 ```
 
-The empirical false positive rate balloons to around **{empirical_fpr*100:.1f}%** — far above the nominal 5%. In other words, even when there is truly no difference between the CTAs, we'd incorrectly declare a winner in roughly one out of every four or five experiments.
+The empirical false positive rate balloons to around **`{python} f"{empirical_fpr*100:.1f}"`%** — far above the nominal 5%. In other words, even when there is truly no difference between the CTAs, we'd incorrectly declare a winner in roughly one out of every four or five experiments.
 
 This is why **pre-registration matters** in A/B testing: decide your sample size *before* collecting data, run the test *once* at the end, and commit to that result. If you want the flexibility to stop early, you need more sophisticated methods — such as sequential testing or Bayesian approaches — that properly account for the multiple looks. Classical frequentist tests applied naively with repeated peeking will mislead you far more often than you think.
