@@ -273,7 +273,7 @@ window.Quarto = {
 <p>We’ll assume:</p>
 <p><span class="math display">\[\pi_A = 0.22, \quad \pi_B = 0.18, \quad \theta = \pi_A - \pi_B = 0.04\]</span></p>
 <p>So CTA A is genuinely better by 4 percentage points. We simulate 1,000 visitors per group — 2,000 observations total.</p>
-<div id="8eb85592" class="cell" data-execution_count="2">
+<div id="c2b7f5ec" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
@@ -303,14 +303,14 @@ Estimated difference θ̂     : 0.0380  (true: 0.04)</code></pre>
 <p>The <strong>Law of Large Numbers (LLN)</strong> tells us that as the sample size grows, the sample mean converges to the true population mean. In our setting, this means <span class="math inline">\(\hat\pi_A \to \pi_A\)</span> and <span class="math inline">\(\hat\pi_B \to \pi_B\)</span> as we collect more data — and therefore <span class="math inline">\(\hat\theta \to \theta\)</span>.</p>
 <p>The LLN is the foundational reason we trust our estimator: given enough data, it will get arbitrarily close to the truth. But how much data is “enough”? The plot below makes this tangible.</p>
 <p>We compute the element-wise difference between our CTA A and CTA B draws, then track the <strong>running (cumulative) average</strong> of those differences as we add one observation at a time.</p>
-<div id="eeb2ead7" class="cell" data-execution_count="3">
+<div id="13d170c5" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>diffs       <span class="op">=</span> draws_A <span class="op">-</span> draws_B</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>running_avg <span class="op">=</span> np.cumsum(diffs) <span class="op">/</span> np.arange(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="8f758522" class="cell" data-execution_count="4">
+<div id="e0beffdf" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -333,7 +333,7 @@ Estimated difference θ̂     : 0.0380  (true: 0.04)</code></pre>
 <li>Compute <span class="math inline">\(\hat\theta^* = \bar{X}_A^* - \bar{X}_B^*\)</span> on the resample.</li>
 <li>Repeat 1,000 times. The standard deviation of the 1,000 bootstrapped <span class="math inline">\(\hat\theta^*\)</span> values is our <strong>bootstrapped standard error</strong>.</li>
 </ol>
-<div id="b82f5081" class="cell" data-execution_count="5">
+<div id="05ab1bb2" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> <span class="dv">1000</span></span>
@@ -369,7 +369,7 @@ Analytical standard error    : 0.0178
 </div>
 </div>
 <p>The bootstrapped and analytical standard errors are very close to each other — the bootstrap “discovers” the right answer without needing a formula, purely from the data.</p>
-<p>Our <strong>95% confidence interval</strong> says: given our data, we estimate that CTA A’s sign-up rate exceeds CTA B’s by somewhere between {ci_lower<em>100:.1f}% and {ci_upper</em>100:.1f}% percentage points. Since the entire interval sits above zero, this is strong evidence that CTA A genuinely outperforms CTA B.</p>
+<p>Our <strong>95% confidence interval</strong> says: given our data, we estimate that CTA A’s sign-up rate exceeds CTA B’s by somewhere between 0.3% and 7.3% — a range that lies entirely above zero. This is strong evidence that CTA A genuinely outperforms CTA B.</p>
 <hr>
 </section>
 <section id="the-central-limit-theorem" class="level2">
@@ -377,7 +377,7 @@ Analytical standard error    : 0.0178
 <p>The bootstrap gave us a practical tool for computing standard errors, but there’s a deeper theoretical result underpinning our ability to do inference: the <strong>Central Limit Theorem (CLT)</strong>.</p>
 <p>The CLT states that regardless of the shape of the underlying population distribution, the sampling distribution of the sample mean becomes approximately <strong>Normal</strong> as the sample size grows. In our case, even though individual outcomes are Bernoulli (binary 0/1), the distribution of <span class="math inline">\(\hat\theta = \bar{X}_A - \bar{X}_B\)</span> will look like a bell curve for large enough <span class="math inline">\(n\)</span>.</p>
 <p>To see this in action, we simulate 1,000 experiments at four different sample sizes — <span class="math inline">\(n \in \{25, 50, 100, 500\}\)</span> — and plot the distribution of <span class="math inline">\(\hat\theta\)</span> each time.</p>
-<div id="6a0f717f" class="cell" data-execution_count="6">
+<div id="f854e748" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sample_sizes <span class="op">=</span> [<span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">500</span>]</span>
@@ -392,7 +392,7 @@ Analytical standard error    : 0.0178
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    clt_results[ns] <span class="op">=</span> theta_hats</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="360b6d1a" class="cell" data-execution_count="7">
+<div id="60063fb5" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -416,7 +416,7 @@ Analytical standard error    : 0.0178
 <p><span class="math display">\[z = \frac{\hat\theta - 0}{SE(\hat\theta)}\]</span></p>
 <p>The logic: by the CLT, <span class="math inline">\(\hat\theta\)</span> is approximately Normal for large samples. Under <span class="math inline">\(H_0\)</span>, its mean is 0. Dividing by the standard deviation gives a standard Normal <span class="math inline">\(N(0,1)\)</span> — whose distribution we know exactly, allowing us to compute a <strong>p-value</strong>.</p>
 <p>A note on terminology: this is sometimes called a <strong>t-test</strong>, but strictly speaking that label applies when data are drawn from a Normal distribution. Our data are Bernoulli, so the CLT gives us approximate Normality — making this more accurately a <strong>z-test</strong>. For large samples the distinction is negligible.</p>
-<div id="42760faa" class="cell" data-execution_count="8">
+<div id="f003e0e9" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>z_stat  <span class="op">=</span> theta_hat <span class="op">/</span> se_analytical</span>
@@ -453,7 +453,7 @@ p-value                   : 0.0325</code></pre>
 <li><span class="math inline">\(\beta_0 + \beta_1 = E[Y_i \mid D_i = 1] = \pi_A\)</span> — the CTA A sign-up rate</li>
 <li>Therefore <span class="math inline">\(\beta_1 = \pi_A - \pi_B = \theta\)</span>, and <span class="math inline">\(\hat\beta_1\)</span> is numerically identical to <span class="math inline">\(\hat\theta\)</span></li>
 </ol>
-<div id="ed573af5" class="cell" data-execution_count="9">
+<div id="a1dbd49e" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> np.concatenate([draws_A, draws_B])</span>
@@ -494,7 +494,7 @@ p-value           : 0.0327</code></pre>
 <p>This sounds reasonable. It’s not.</p>
 <p>Each test at <span class="math inline">\(\alpha = 0.05\)</span> carries a <strong>5% false positive rate</strong>. When you run 10 such tests on accumulating data, you get 10 chances to make a mistake. The overall probability of at least one false rejection climbs well above 5%.</p>
 <p>To see exactly how bad the situation is, we simulate 10,000 experiments in a world where <strong>the null is true</strong>: <span class="math inline">\(\pi_A = \pi_B = 0.20\)</span>, so any “significant” result is a false positive.</p>
-<div id="6aec923e" class="cell" data-execution_count="10">
+<div id="50243f9d" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">123</span>)</span>
@@ -530,7 +530,7 @@ p-value           : 0.0327</code></pre>
 Empirical false positive rate (peeking)   : 19.9%</code></pre>
 </div>
 </div>
-<p>The empirical false positive rate balloons to around **{empirical_fpr*100:.1f}%** — far above the nominal 5%. In other words, even when there is truly no difference between the CTAs, we’d incorrectly declare a winner in roughly one out of every four or five experiments.</p>
+<p>The empirical false positive rate balloons to around <strong>19.9%</strong> — far above the nominal 5%. In other words, even when there is truly no difference between the CTAs, we’d incorrectly declare a winner in roughly one out of every four or five experiments.</p>
 <p>This is why <strong>pre-registration matters</strong> in A/B testing: decide your sample size <em>before</em> collecting data, run the test <em>once</em> at the end, and commit to that result. If you want the flexibility to stop early, you need more sophisticated methods — such as sequential testing or Bayesian approaches — that properly account for the multiple looks. Classical frequentist tests applied naively with repeated peeking will mislead you far more often than you think.</p>
 
 
