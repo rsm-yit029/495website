@@ -406,7 +406,7 @@ se_glm = glm_result.bse
 col_labels = ["Intercept","Age","Age²",
               "Region: Northeast","Region: Northwest",
               "Region: South","Region: Southwest",
-              "Blueprinty Customer"]
+              " Blueprinty Customer"]
 
 comp_df = pd.DataFrame({
     "Term"       : col_labels,

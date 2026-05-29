@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.13">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ria Tang">
+<meta name="dcterms.date" content="2026-05-28">
+
+<title>MaxDiff Analysis of MSBA Class Preferences – Ria Tang</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-3857c22e486953263cef44b5ce82424e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a14540a4a4151127a7fad804b3ac57df.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Ria Tang</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../resume.html"> 
+<span class="menu-text">Resume</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../tools.html"> 
+<span class="menu-text">Tools</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">The Data</a></li>
+  <li><a href="#counts-analysis" id="toc-counts-analysis" class="nav-link" data-scroll-target="#counts-analysis">Counts Analysis</a></li>
+  <li><a href="#from-maxdiff-data-to-mnl-choices" id="toc-from-maxdiff-data-to-mnl-choices" class="nav-link" data-scroll-target="#from-maxdiff-data-to-mnl-choices">From MaxDiff Data to MNL Choices</a></li>
+  <li><a href="#mnl-via-maximum-likelihood" id="toc-mnl-via-maximum-likelihood" class="nav-link" data-scroll-target="#mnl-via-maximum-likelihood">MNL via Maximum Likelihood</a></li>
+  <li><a href="#mnl-via-bayesian-estimation" id="toc-mnl-via-bayesian-estimation" class="nav-link" data-scroll-target="#mnl-via-bayesian-estimation">MNL via Bayesian Estimation</a></li>
+  <li><a href="#comparing-the-three-methods" id="toc-comparing-the-three-methods" class="nav-link" data-scroll-target="#comparing-the-three-methods">Comparing the Three Methods</a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">MaxDiff Analysis of MSBA Class Preferences</h1>
+<p class="subtitle lead">Counts, MLE, and Bayesian Estimation of the MNL Model</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">MNL</div>
+    <div class="quarto-category">Bayesian</div>
+    <div class="quarto-category">MaxDiff</div>
+    <div class="quarto-category">R</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ria Tang </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 28, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>MaxDiff (also called Best-Worst Scaling) is a survey method for measuring the strength of people’s preferences across a set of items. In each screen, respondents see a small subset of all items — four in this study — and choose the one they like <strong>most</strong> and the one they like <strong>least</strong>. Repeating this across many screens allows us to infer the relative preference for each item from the pattern of choices.</p>
+<p>The key advantage of MaxDiff over simple rating scales is that it forces genuine trade-offs. Rating scales suffer from scale-use bias — some respondents habitually give high scores, others cluster around the midpoint — making cross-respondent comparisons unreliable. MaxDiff eliminates this by requiring relative judgments, which tend to be both more reliable and more informative.</p>
+<p>In this assignment, the ten items are the core courses in the UCSD Rady MSBA program. The goal is to estimate student preferences using three methods and compare them:</p>
+<ol type="1">
+<li><strong>Counts Analysis</strong> — a simple score: percentage of times an item was picked best minus percentage of times picked worst</li>
+<li><strong>MNL via MLE</strong> — a multinomial logit model fit by maximizing the log-likelihood, yielding point estimates and standard errors</li>
+<li><strong>MNL via Bayesian MCMC</strong> — the same model fit with a Metropolis-Hastings sampler, yielding a full posterior distribution over the parameters</li>
+</ol>
+<p>We expect all three methods to agree strongly at the top and bottom of the ranking. The primary advantage of the Bayesian approach over MLE is that uncertainty on derived quantities like preference shares can be read directly from the posterior samples, without approximation.</p>
+<hr>
+</section>
+<section id="the-data" class="level2">
+<h2 class="anchored" data-anchor-id="the-data">The Data</h2>
+<div id="4018f946" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>matplotlib.rcParams[<span class="st">'figure.dpi'</span>] <span class="op">=</span> <span class="dv">130</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>matplotlib.rcParams[<span class="st">'font.size'</span>] <span class="op">=</span> <span class="dv">11</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>matplotlib.rcParams[<span class="st">'axes.spines.top'</span>] <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>matplotlib.rcParams[<span class="st">'axes.spines.right'</span>] <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>df_raw <span class="op">=</span> pd.read_csv(<span class="st">'maxdiff_design_and_choices.csv'</span>, encoding<span class="op">=</span><span class="st">'utf-8-sig'</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>labels_raw <span class="op">=</span> pd.read_csv(<span class="st">'maxdiff_item_labels.csv'</span>, encoding<span class="op">=</span><span class="st">'utf-8-sig'</span>, usecols<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>labels_raw.columns <span class="op">=</span> [<span class="st">'item'</span>, <span class="st">'label'</span>]</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>short_labels <span class="op">=</span> {</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>: <span class="st">'AI Math (403)'</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>: <span class="st">'SQL (464)'</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="dv">3</span>: <span class="st">'Mktg/Fin/Ops (451)'</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="dv">4</span>: <span class="st">'Large Data (452)'</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="dv">5</span>: <span class="st">'Biz Analytics (453)'</span>,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="dv">6</span>: <span class="st">'Consulting (444)'</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="dv">7</span>: <span class="st">'Customer Analytics (455)'</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="dv">8</span>: <span class="st">'Capstone (454)'</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="dv">9</span>: <span class="st">'Mktg Analytics (495)'</span>,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10</span>: <span class="st">'Biz Intel (457)'</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>task_sizes <span class="op">=</span> df_raw.groupby([<span class="st">'Record ID'</span>, <span class="st">'Task'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'n'</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>valid_tasks <span class="op">=</span> task_sizes[task_sizes[<span class="st">'n'</span>] <span class="op">==</span> <span class="dv">4</span>][[<span class="st">'Record ID'</span>, <span class="st">'Task'</span>]]</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df_raw.merge(valid_tasks, on<span class="op">=</span>[<span class="st">'Record ID'</span>, <span class="st">'Task'</span>])</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>N       <span class="op">=</span> df[<span class="st">'Record ID'</span>].nunique()</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>T       <span class="op">=</span> df.groupby(<span class="st">'Record ID'</span>)[<span class="st">'Task'</span>].nunique().iloc[<span class="dv">0</span>]</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>J       <span class="op">=</span> df.groupby([<span class="st">'Record ID'</span>, <span class="st">'Task'</span>]).size().iloc[<span class="dv">0</span>]</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>n_items <span class="op">=</span> df[<span class="st">'Item'</span>].nunique()</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Respondents (N)       : </span><span class="sc">{</span>N<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Tasks per respondent  : </span><span class="sc">{</span>T<span class="sc">}</span><span class="ss">  (raw data has 15 tasks; the last 7 contain Item 11 and are excluded)"</span>)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Items per task (J)    : </span><span class="sc">{</span>J<span class="sc">}</span><span class="ss">  (should be 4 ✓)"</span>)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total items in study  : </span><span class="sc">{</span>n_items<span class="sc">}</span><span class="ss">  (should be 10 ✓)"</span>)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Valid tasks total     : </span><span class="sc">{</span>N <span class="op">*</span> T<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Respondents (N)       : 85
+Tasks per respondent  : 8  (raw data has 15 tasks; the last 7 contain Item 11 and are excluded)
+Items per task (J)    : 4  (should be 4 ✓)
+Total items in study  : 10  (should be 10 ✓)
+Valid tasks total     : 680</code></pre>
+</div>
+</div>
+<div id="f3033769" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>task_resp <span class="op">=</span> df.groupby([<span class="st">'Record ID'</span>, <span class="st">'Task'</span>])[<span class="st">'Response'</span>].<span class="bu">apply</span>(<span class="bu">list</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ok_best   <span class="op">=</span> task_resp.<span class="bu">apply</span>(<span class="kw">lambda</span> x: x.count( <span class="dv">1</span>) <span class="op">==</span> <span class="dv">1</span>).<span class="bu">all</span>()</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ok_worst  <span class="op">=</span> task_resp.<span class="bu">apply</span>(<span class="kw">lambda</span> x: x.count(<span class="op">-</span><span class="dv">1</span>) <span class="op">==</span> <span class="dv">1</span>).<span class="bu">all</span>()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ok_zero   <span class="op">=</span> task_resp.<span class="bu">apply</span>(<span class="kw">lambda</span> x: x.count( <span class="dv">0</span>) <span class="op">==</span> <span class="dv">2</span>).<span class="bu">all</span>()</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sanity checks:"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Every task has exactly 1 best  (Response =  1) : </span><span class="sc">{</span>ok_best<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Every task has exactly 1 worst (Response = -1) : </span><span class="sc">{</span>ok_worst<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Every task has exactly 2 other (Response =  0) : </span><span class="sc">{</span>ok_zero<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sanity checks:
+  Every task has exactly 1 best  (Response =  1) : True
+  Every task has exactly 1 worst (Response = -1) : True
+  Every task has exactly 2 other (Response =  0) : True</code></pre>
+</div>
+</div>
+<div id="63927a15" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>shown_counts <span class="op">=</span> df.groupby(<span class="st">'Item'</span>).size().rename(<span class="st">'times_shown'</span>).reset_index()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>shown_counts[<span class="st">'label'</span>] <span class="op">=</span> shown_counts[<span class="st">'Item'</span>].<span class="bu">map</span>(short_labels)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>shown_counts <span class="op">=</span> shown_counts.sort_values(<span class="st">'Item'</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Times each item was shown (balance check):</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(shown_counts[[<span class="st">'Item'</span>, <span class="st">'label'</span>, <span class="st">'times_shown'</span>]].to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Mean: </span><span class="sc">{</span>shown_counts[<span class="st">'times_shown'</span>]<span class="sc">.</span>mean()<span class="sc">:.1f}</span><span class="ss">,  "</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"SD: </span><span class="sc">{</span>shown_counts[<span class="st">'times_shown'</span>]<span class="sc">.</span>std()<span class="sc">:.1f}</span><span class="ss">,  "</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"Range: </span><span class="sc">{</span>shown_counts[<span class="st">'times_shown'</span>]<span class="sc">.</span><span class="bu">max</span>() <span class="op">-</span> shown_counts[<span class="st">'times_shown'</span>]<span class="sc">.</span><span class="bu">min</span>()<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Times each item was shown (balance check):
+
+ Item                    label  times_shown
+    1            AI Math (403)          273
+    2                SQL (464)          274
+    3       Mktg/Fin/Ops (451)          272
+    4         Large Data (452)          276
+    5      Biz Analytics (453)          270
+    6         Consulting (444)          267
+    7 Customer Analytics (455)          276
+    8           Capstone (454)          272
+    9     Mktg Analytics (495)          274
+   10          Biz Intel (457)          266
+
+Mean: 272.0,  SD: 3.4,  Range: 10</code></pre>
+</div>
+</div>
+<p>The raw file also contains later tasks with only two displayed rows and no worst-choice response. These rows include an Item 11 that is not part of the 10-item label file. Since the assignment focuses on the 10 labeled MSBA classes and the MNL likelihood requires complete best-worst tasks, I restrict the analysis to valid four-item tasks with exactly one best and one worst response. This leaves 680 valid tasks across 85 respondents. The exposure counts for the ten items are highly balanced, as intended by the MaxDiff design.</p>
+<hr>
+</section>
+<section id="counts-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="counts-analysis">Counts Analysis</h2>
+<p>The counts analysis is the simplest approach. For each item <span class="math inline">\(j\)</span>, we compute the percentage of times it was picked as best (out of the number of times it was shown) and the percentage of times it was picked as worst. The score is the difference:</p>
+<p><span class="math display">\[
+\text{score}_j = \%\text{best}_j - \%\text{worst}_j
+\]</span></p>
+<p>A score near +1 means an item is almost always picked as best when shown; near −1 means it is almost always picked as worst; near 0 means it is middle-of-the-pack or polarizing. No statistical model is needed — the method is fully transparent and easy to explain to a non-technical audience.</p>
+<div id="823e74f3" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>best_cnt  <span class="op">=</span> df[df[<span class="st">'Response'</span>] <span class="op">==</span>  <span class="dv">1</span>].groupby(<span class="st">'Item'</span>).size().rename(<span class="st">'times_best'</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>worst_cnt <span class="op">=</span> df[df[<span class="st">'Response'</span>] <span class="op">==</span> <span class="op">-</span><span class="dv">1</span>].groupby(<span class="st">'Item'</span>).size().rename(<span class="st">'times_worst'</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>cnt <span class="op">=</span> shown_counts.set_index(<span class="st">'Item'</span>).join(best_cnt).join(worst_cnt)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>cnt[<span class="st">'times_best'</span>]  <span class="op">=</span> cnt[<span class="st">'times_best'</span>].fillna(<span class="dv">0</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>cnt[<span class="st">'times_worst'</span>] <span class="op">=</span> cnt[<span class="st">'times_worst'</span>].fillna(<span class="dv">0</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>cnt[<span class="st">'pct_best'</span>]    <span class="op">=</span> cnt[<span class="st">'times_best'</span>]  <span class="op">/</span> cnt[<span class="st">'times_shown'</span>]</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>cnt[<span class="st">'pct_worst'</span>]   <span class="op">=</span> cnt[<span class="st">'times_worst'</span>] <span class="op">/</span> cnt[<span class="st">'times_shown'</span>]</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>cnt[<span class="st">'score'</span>]       <span class="op">=</span> cnt[<span class="st">'pct_best'</span>] <span class="op">-</span> cnt[<span class="st">'pct_worst'</span>]</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>cnt[<span class="st">'counts_rank'</span>] <span class="op">=</span> cnt[<span class="st">'score'</span>].rank(ascending<span class="op">=</span><span class="va">False</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>cnt <span class="op">=</span> cnt.sort_values(<span class="st">'counts_rank'</span>).reset_index()</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>disp <span class="op">=</span> cnt[[<span class="st">'counts_rank'</span>,<span class="st">'Item'</span>,<span class="st">'label'</span>,<span class="st">'times_shown'</span>,<span class="st">'times_best'</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>            <span class="st">'times_worst'</span>,<span class="st">'pct_best'</span>,<span class="st">'pct_worst'</span>,<span class="st">'score'</span>]].copy()</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>disp.columns <span class="op">=</span> [<span class="st">'Rank'</span>,<span class="st">'Item'</span>,<span class="st">'Course'</span>,<span class="st">'Shown'</span>,<span class="st">'# Best'</span>,<span class="st">'# Worst'</span>,<span class="st">'% Best'</span>,<span class="st">'% Worst'</span>,<span class="st">'Score'</span>]</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>disp[<span class="st">'% Best'</span>]  <span class="op">=</span> disp[<span class="st">'% Best'</span>].<span class="bu">map</span>(<span class="st">'</span><span class="sc">{:.1%}</span><span class="st">'</span>.<span class="bu">format</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>disp[<span class="st">'% Worst'</span>] <span class="op">=</span> disp[<span class="st">'% Worst'</span>].<span class="bu">map</span>(<span class="st">'</span><span class="sc">{:.1%}</span><span class="st">'</span>.<span class="bu">format</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>disp[<span class="st">'Score'</span>]   <span class="op">=</span> disp[<span class="st">'Score'</span>].<span class="bu">map</span>(<span class="st">'</span><span class="sc">{:+.3f}</span><span class="st">'</span>.<span class="bu">format</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(disp.to_string(index<span class="op">=</span><span class="va">False</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> Rank  Item                   Course  Shown  # Best  # Worst % Best % Worst  Score
+    1     9     Mktg Analytics (495)    274     147       12  53.6%    4.4% +0.493
+    2     5      Biz Analytics (453)    270      93       55  34.4%   20.4% +0.141
+    3     7 Customer Analytics (455)    276     104       71  37.7%   25.7% +0.120
+    4     4         Large Data (452)    276      77       60  27.9%   21.7% +0.062
+    5     8           Capstone (454)    272      72       69  26.5%   25.4% +0.011
+    6     2                SQL (464)    274      55       56  20.1%   20.4% -0.004
+    7    10          Biz Intel (457)    266      23       55   8.6%   20.7% -0.120
+    8     1            AI Math (403)    273      33       90  12.1%   33.0% -0.209
+    9     3       Mktg/Fin/Ops (451)    272      43      101  15.8%   37.1% -0.213
+   10     6         Consulting (444)    267      33      111  12.4%   41.6% -0.292</code></pre>
+</div>
+</div>
+<div id="309a3f90" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>respondents <span class="op">=</span> df[<span class="st">'Record ID'</span>].unique()</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>N_boot      <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>item_order  <span class="op">=</span> cnt[<span class="st">'Item'</span>].values</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>boot_scores <span class="op">=</span> np.zeros((N_boot, <span class="dv">10</span>))</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(N_boot):</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    sampled <span class="op">=</span> np.random.choice(respondents, size<span class="op">=</span><span class="bu">len</span>(respondents), replace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    bdf <span class="op">=</span> pd.concat([df[df[<span class="st">'Record ID'</span>] <span class="op">==</span> r] <span class="cf">for</span> r <span class="kw">in</span> sampled], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, item <span class="kw">in</span> <span class="bu">enumerate</span>(item_order):</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        sh  <span class="op">=</span> (bdf[<span class="st">'Item'</span>] <span class="op">==</span> item).<span class="bu">sum</span>()</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> sh <span class="op">==</span> <span class="dv">0</span>: <span class="cf">continue</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        bst <span class="op">=</span> ((bdf[<span class="st">'Item'</span>] <span class="op">==</span> item) <span class="op">&amp;</span> (bdf[<span class="st">'Response'</span>] <span class="op">==</span>  <span class="dv">1</span>)).<span class="bu">sum</span>()</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        wst <span class="op">=</span> ((bdf[<span class="st">'Item'</span>] <span class="op">==</span> item) <span class="op">&amp;</span> (bdf[<span class="st">'Response'</span>] <span class="op">==</span> <span class="op">-</span><span class="dv">1</span>)).<span class="bu">sum</span>()</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        boot_scores[b, i] <span class="op">=</span> bst <span class="op">/</span> sh <span class="op">-</span> wst <span class="op">/</span> sh</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> cnt[<span class="st">'score'</span>].values</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>ci_lo  <span class="op">=</span> np.array([np.percentile(boot_scores[:, i], <span class="fl">2.5</span>)  <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>)])</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>ci_hi  <span class="op">=</span> np.array([np.percentile(boot_scores[:, i], <span class="fl">97.5</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>)])</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="fl">5.5</span>))</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">'#2166ac'</span> <span class="cf">if</span> s <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">'#d6604d'</span> <span class="cf">for</span> s <span class="kw">in</span> scores]</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.arange(<span class="bu">len</span>(scores))</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>ax.barh(y, scores, color<span class="op">=</span>colors, alpha<span class="op">=</span><span class="fl">0.85</span>, height<span class="op">=</span><span class="fl">0.55</span>)</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>ax.hlines(y, ci_lo, ci_hi, color<span class="op">=</span><span class="st">'#222'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, zorder<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>ax.plot(ci_lo, y, <span class="st">'|'</span>, color<span class="op">=</span><span class="st">'#222'</span>, markersize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>ax.plot(ci_hi, y, <span class="st">'|'</span>, color<span class="op">=</span><span class="st">'#222'</span>, markersize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(y)</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels(cnt[<span class="st">'label'</span>].values, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'black'</span>, linewidth<span class="op">=</span><span class="fl">0.8</span>, linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Counts Score  (% Best − % Worst)'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'MaxDiff Counts Analysis</span><span class="ch">\n</span><span class="st">with 95% Bootstrap Confidence Intervals (respondent resampling)'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>ax.invert_yaxis()</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'counts_plot.png'</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw4_maxdiff_files/figure-html/cell-6-output-1.png" width="1153" height="701" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Observations.</strong> Mktg Analytics (495) ranks first by a wide margin (score = +0.493), with a bootstrap CI that does not overlap any other course — the preference signal is unambiguous. Biz Analytics (453) and Customer Analytics (455) follow in second and third. At the bottom, Consulting (444) scores −0.292 and is clearly the least preferred option. One mild surprise is SQL (464), which scores nearly zero (−0.004, rank 6): despite being a highly marketable skill, students appear about as likely to pick it as best as worst, suggesting they may view it as necessary but not exciting. Capstone (454) sits in the middle with a score close to zero as well, which makes intuitive sense given its obligatory nature.</p>
+<hr>
+</section>
+<section id="from-maxdiff-data-to-mnl-choices" class="level2">
+<h2 class="anchored" data-anchor-id="from-maxdiff-data-to-mnl-choices">From MaxDiff Data to MNL Choices</h2>
+<p>Before fitting an MNL model, we need to understand how MaxDiff survey data converts into MNL choice observations (following the week-5 conjoint/MNL slides).</p>
+<p>The MNL model assigns each item <span class="math inline">\(j\)</span> a utility coefficient <span class="math inline">\(\beta_j\)</span>. On a task showing items <span class="math inline">\(\{a, b, c, d\}\)</span>, the probability that item <span class="math inline">\(b\)</span> is picked <strong>best</strong> is the softmax over all four utilities:</p>
+<p><span class="math display">\[
+P(\text{best} = b) = \frac{\exp(\beta_b)}{\exp(\beta_a) + \exp(\beta_b) + \exp(\beta_c) + \exp(\beta_d)}
+\]</span></p>
+<p>The probability that item <span class="math inline">\(c\)</span> is then picked <strong>worst</strong> — from the remaining three items — is equivalent to choosing the item with the lowest utility from that set. Flipping the sign of each utility and applying softmax gives:</p>
+<p><span class="math display">\[
+P(\text{worst} = c \mid \text{best} = b) = \frac{\exp(-\beta_c)}{\exp(-\beta_a) + \exp(-\beta_c) + \exp(-\beta_d)}
+\]</span></p>
+<p>Each task therefore yields <strong>two MNL observations</strong>: a best-pick from all four items, and a worst-pick from the remaining three.</p>
+<p><strong>Identifiability.</strong> Because the softmax is invariant to adding a constant to every utility, only relative utilities are identified. With 10 total items, we estimate 9 free parameters and fix <span class="math inline">\(\beta_1 = 0\)</span> (AI Math, Item 1) as the reference category. All other coefficients are interpreted relative to AI Math.</p>
+<div id="e90332c9" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>tasks <span class="op">=</span> []</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (rid, tid), grp <span class="kw">in</span> df.groupby([<span class="st">'Record ID'</span>, <span class="st">'Task'</span>]):</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    items <span class="op">=</span> grp.sort_values(<span class="st">'Position'</span>)[<span class="st">'Item'</span>].values</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    best  <span class="op">=</span> grp.loc[grp[<span class="st">'Response'</span>] <span class="op">==</span>  <span class="dv">1</span>, <span class="st">'Item'</span>].values[<span class="dv">0</span>]</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    worst <span class="op">=</span> grp.loc[grp[<span class="st">'Response'</span>] <span class="op">==</span> <span class="op">-</span><span class="dv">1</span>, <span class="st">'Item'</span>].values[<span class="dv">0</span>]</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    tasks.append({<span class="st">'items'</span>: items, <span class="st">'best'</span>: best, <span class="st">'worst'</span>: worst})</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total tasks           : </span><span class="sc">{</span><span class="bu">len</span>(tasks)<span class="sc">}</span><span class="ss">  (= </span><span class="sc">{</span>N<span class="sc">}</span><span class="ss"> respondents × </span><span class="sc">{</span>T<span class="sc">}</span><span class="ss"> tasks)"</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Equivalent MNL obs.   : </span><span class="sc">{</span><span class="bu">len</span>(tasks) <span class="op">*</span> <span class="dv">2</span><span class="sc">}</span><span class="ss">  (best + worst per task)"</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> tasks[<span class="dv">0</span>]</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Example task:"</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Items shown : </span><span class="sc">{</span>[short_labels[i] <span class="cf">for</span> i <span class="kw">in</span> t[<span class="st">'items'</span>]]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Best pick   : </span><span class="sc">{</span>short_labels[t[<span class="st">'best'</span>]]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Worst pick  : </span><span class="sc">{</span>short_labels[t[<span class="st">'worst'</span>]]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Total tasks           : 680  (= 85 respondents × 8 tasks)
+Equivalent MNL obs.   : 1360  (best + worst per task)
+
+Example task:
+  Items shown : ['Biz Analytics (453)', 'Customer Analytics (455)', 'Large Data (452)', 'AI Math (403)']
+  Best pick   : Customer Analytics (455)
+  Worst pick  : AI Math (403)</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="mnl-via-maximum-likelihood" class="level2">
+<h2 class="anchored" data-anchor-id="mnl-via-maximum-likelihood">MNL via Maximum Likelihood</h2>
+<p>The log-likelihood sums over all tasks:</p>
+<p><span class="math display">\[
+\ell(\boldsymbol{\beta}) = \sum_{\text{tasks}} \left[ \beta_{j^*_b} - \log\!\!\sum_{j \in \text{shown}}\!\!\exp(\beta_j) \;\;-\;\; \beta_{j^*_w} - \log\!\!\!\!\sum_{j \in \text{shown} \setminus \{j^*_b\}}\!\!\!\!\exp(-\beta_j) \right]
+\]</span></p>
+<p>where <span class="math inline">\(j^*_b\)</span> is the best-picked item and <span class="math inline">\(j^*_w\)</span> is the worst-picked item in each task. We use the log-sum-exp form throughout for numerical stability.</p>
+<div id="25ac71d1" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_likelihood(beta_9):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    beta <span class="op">=</span> np.concatenate([[<span class="fl">0.0</span>], beta_9])</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    ll <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> t <span class="kw">in</span> tasks:</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        idx       <span class="op">=</span> t[<span class="st">'items'</span>] <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        b         <span class="op">=</span> beta[idx]</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        best_idx  <span class="op">=</span> t[<span class="st">'best'</span>]  <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        worst_idx <span class="op">=</span> t[<span class="st">'worst'</span>] <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        ll <span class="op">+=</span> b[idx <span class="op">==</span> best_idx][<span class="dv">0</span>] <span class="op">-</span> np.log(np.<span class="bu">sum</span>(np.exp(b)))</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        rem   <span class="op">=</span> idx[idx <span class="op">!=</span> best_idx]</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        b_rem <span class="op">=</span> <span class="op">-</span>beta[rem]</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        ll <span class="op">+=</span> b_rem[rem <span class="op">==</span> worst_idx][<span class="dv">0</span>] <span class="op">-</span> np.log(np.<span class="bu">sum</span>(np.exp(b_rem)))</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ll</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>ll0  <span class="op">=</span> log_likelihood(np.zeros(<span class="dv">9</span>))</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>exp0 <span class="op">=</span> <span class="bu">len</span>(tasks) <span class="op">*</span> (np.log(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>) <span class="op">+</span> np.log(<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>))</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Log-likelihood at zero : </span><span class="sc">{</span>ll0<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Expected value         : </span><span class="sc">{</span>exp0<span class="sc">:.4f}</span><span class="ss">  </span><span class="sc">{</span><span class="st">'✓'</span> <span class="cf">if</span> <span class="bu">abs</span>(ll0 <span class="op">-</span> exp0) <span class="op">&lt;</span> <span class="fl">0.01</span> <span class="cf">else</span> <span class="st">'✗'</span><span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Log-likelihood at zero : -1689.7365
+Expected value         : -1689.7365  ✓</code></pre>
+</div>
+</div>
+<div id="06124f03" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> minimize(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: <span class="op">-</span>log_likelihood(x),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    x0<span class="op">=</span>np.zeros(<span class="dv">9</span>),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    method<span class="op">=</span><span class="st">'L-BFGS-B'</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    options<span class="op">=</span>{<span class="st">'maxiter'</span>: <span class="dv">5000</span>, <span class="st">'ftol'</span>: <span class="fl">1e-12</span>, <span class="st">'gtol'</span>: <span class="fl">1e-8</span>}</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Converged : </span><span class="sc">{</span>result<span class="sc">.</span>success<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Message   : </span><span class="sc">{</span>result<span class="sc">.</span>message<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Final log-likelihood : </span><span class="sc">{</span><span class="op">-</span>result<span class="sc">.</span>fun<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>beta_mle <span class="op">=</span> np.concatenate([[<span class="fl">0.0</span>], result.x])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Converged : True
+Message   : CONVERGENCE: RELATIVE REDUCTION OF F &lt;= FACTR*EPSMCH
+Final log-likelihood : -1572.7307</code></pre>
+</div>
+</div>
+<div id="f49d7567" class="cell" data-execution_count="9">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> numerical_hessian(f, x, eps<span class="op">=</span><span class="fl">1e-4</span>):</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(x)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    H <span class="op">=</span> np.zeros((n, n))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i, n):</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>            xpp <span class="op">=</span> x.copy()<span class="op">;</span> xpp[i] <span class="op">+=</span> eps<span class="op">;</span> xpp[j] <span class="op">+=</span> eps</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>            xpm <span class="op">=</span> x.copy()<span class="op">;</span> xpm[i] <span class="op">+=</span> eps<span class="op">;</span> xpm[j] <span class="op">-=</span> eps</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>            xmp <span class="op">=</span> x.copy()<span class="op">;</span> xmp[i] <span class="op">-=</span> eps<span class="op">;</span> xmp[j] <span class="op">+=</span> eps</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>            xmm <span class="op">=</span> x.copy()<span class="op">;</span> xmm[i] <span class="op">-=</span> eps<span class="op">;</span> xmm[j] <span class="op">-=</span> eps</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>            H[i, j] <span class="op">=</span> (f(xpp) <span class="op">-</span> f(xpm) <span class="op">-</span> f(xmp) <span class="op">+</span> f(xmm)) <span class="op">/</span> (<span class="dv">4</span> <span class="op">*</span> eps<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>            H[j, i] <span class="op">=</span> H[i, j]</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> H</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>H        <span class="op">=</span> numerical_hessian(<span class="kw">lambda</span> x: <span class="op">-</span>log_likelihood(x), result.x)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>se_9     <span class="op">=</span> np.sqrt(np.diag(np.linalg.inv(H)))</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>se_mle   <span class="op">=</span> np.concatenate([[<span class="fl">0.0</span>], se_9])</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>shares_mle <span class="op">=</span> np.exp(beta_mle) <span class="op">/</span> np.exp(beta_mle).<span class="bu">sum</span>()</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>mle_rank   <span class="op">=</span> (<span class="op">-</span>shares_mle).argsort().argsort() <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>mle_df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Item'</span>:     <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>),</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'label'</span>:    [short_labels[i] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>)],</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">'beta'</span>:     beta_mle,</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">'se'</span>:       se_mle,</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">'share'</span>:    shares_mle,</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">'mle_rank'</span>: mle_rank</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>}).sort_values(<span class="st">'mle_rank'</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>disp <span class="op">=</span> mle_df.copy()</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>disp[<span class="st">'beta'</span>]  <span class="op">=</span> disp[<span class="st">'beta'</span>].<span class="bu">map</span>(<span class="st">'</span><span class="sc">{:+.3f}</span><span class="st">'</span>.<span class="bu">format</span>)</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>disp[<span class="st">'se'</span>]    <span class="op">=</span> disp[<span class="st">'se'</span>].<span class="bu">map</span>(<span class="st">'</span><span class="sc">{:.3f}</span><span class="st">'</span>.<span class="bu">format</span>)</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>disp[<span class="st">'share'</span>] <span class="op">=</span> disp[<span class="st">'share'</span>].<span class="bu">map</span>(<span class="st">'</span><span class="sc">{:.4f}</span><span class="st">'</span>.<span class="bu">format</span>)</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>disp.columns  <span class="op">=</span> [<span class="st">'Item'</span>, <span class="st">'Course'</span>, <span class="st">'β̂'</span>, <span class="st">'SE(β̂)'</span>, <span class="st">'Pref. Share'</span>, <span class="st">'Rank'</span>]</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(disp.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Note: SE(β̂) for Item 1 is 0 because β₁ is fixed for identification — it is not an estimated parameter and should not be interpreted as having no uncertainty."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> Item                   Course     β̂ SE(β̂) Pref. Share  Rank
+    9     Mktg Analytics (495) +1.630  0.146      0.2839     1
+    5      Biz Analytics (453) +0.744  0.142      0.1171     2
+    7 Customer Analytics (455) +0.656  0.142      0.1072     3
+    4         Large Data (452) +0.555  0.140      0.0969     4
+    8           Capstone (454) +0.443  0.140      0.0867     5
+    2                SQL (464) +0.438  0.137      0.0862     6
+   10          Biz Intel (457) +0.236  0.137      0.0704     7
+    1            AI Math (403) +0.000  0.000      0.0556     8
+    3       Mktg/Fin/Ops (451) -0.067  0.139      0.0520     9
+    6         Consulting (444) -0.239  0.141      0.0438    10
+
+Note: SE(β̂) for Item 1 is 0 because β₁ is fixed for identification — it is not an estimated parameter and should not be interpreted as having no uncertainty.</code></pre>
+</div>
+</div>
+<div id="27e3ca8e" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="fl">5.5</span>))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>mle_s  <span class="op">=</span> mle_df.sort_values(<span class="st">'share'</span>, ascending<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>y      <span class="op">=</span> np.arange(<span class="bu">len</span>(mle_s))</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">'#2166ac'</span> <span class="cf">if</span> s <span class="op">&gt;</span> shares_mle.mean() <span class="cf">else</span> <span class="st">'#74add1'</span> <span class="cf">for</span> s <span class="kw">in</span> mle_s[<span class="st">'share'</span>]]</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>ax.barh(y, mle_s[<span class="st">'share'</span>], color<span class="op">=</span>colors, alpha<span class="op">=</span><span class="fl">0.85</span>, height<span class="op">=</span><span class="fl">0.55</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(y)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels(mle_s[<span class="st">'label'</span>].values, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="dv">1</span><span class="op">/</span><span class="dv">10</span>, color<span class="op">=</span><span class="st">'gray'</span>, linewidth<span class="op">=</span><span class="fl">0.9</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="st">'Equal share = 0.10'</span>)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Preference Share  (softmax)'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'MNL Preference Shares — Maximum Likelihood</span><span class="ch">\n</span><span class="st">(dashed line = equal-preference benchmark)'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'mle_shares_plot.png'</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw4_maxdiff_files/figure-html/cell-11-output-1.png" width="1153" height="701" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>MLE vs.&nbsp;Counts.</strong> The rankings are <strong>identical</strong> across both methods — all ten courses appear in the same order. This is not surprising given the strength of the preference signal: with 85 respondents and 8 tasks each, the data are informative enough that both approaches converge to the same ordering. The key difference is in what each method reports. Counts gives a raw proportion difference (e.g., Mktg Analytics = +0.493), while MLE gives preference shares with a clear probability interpretation: if all ten courses appeared on a single screen simultaneously, we would expect 28.4% of best-picks to go to Mktg Analytics. MLE also provides standard errors, enabling hypothesis tests that counts cannot support.</p>
+<hr>
+</section>
+<section id="mnl-via-bayesian-estimation" class="level2">
+<h2 class="anchored" data-anchor-id="mnl-via-bayesian-estimation">MNL via Bayesian Estimation</h2>
+<p>We now fit the same MNL model using Bayesian methods, following the week-7 slides on Bayes’ rule and the random-walk Metropolis-Hastings sampler. The posterior is proportional to the likelihood times the prior:</p>
+<p><span class="math display">\[
+\pi(\boldsymbol{\beta} \mid \boldsymbol{y}) \propto L(\boldsymbol{\beta}) \cdot \pi(\boldsymbol{\beta})
+\]</span></p>
+<p>We use a weakly informative multivariate normal prior: <span class="math inline">\(\boldsymbol{\beta} \sim N(\mathbf{0},\; 10 \cdot I)\)</span>. With a standard deviation of approximately 3.2 on each <span class="math inline">\(\beta\)</span>, the prior covers a very wide range of utilities and places almost no constraint on the data.</p>
+<div id="d39b9b2b" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_prior(beta_9):</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(<span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> beta_9<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> <span class="fl">10.0</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_posterior(beta_9):</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> log_likelihood(beta_9) <span class="op">+</span> log_prior(beta_9)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mh_sampler(beta0, n_iter, step, seed<span class="op">=</span><span class="dv">42</span>):</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    np.random.seed(seed)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    K      <span class="op">=</span> <span class="bu">len</span>(beta0)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    draws  <span class="op">=</span> np.zeros((n_iter, K))</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    beta   <span class="op">=</span> beta0.copy()</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    lp     <span class="op">=</span> log_posterior(beta)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    accept <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(n_iter):</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>        beta_star <span class="op">=</span> beta <span class="op">+</span> np.random.normal(<span class="dv">0</span>, step, K)</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>        lp_star   <span class="op">=</span> log_posterior(beta_star)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> np.log(np.random.uniform()) <span class="op">&lt;</span> lp_star <span class="op">-</span> lp:</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>            beta <span class="op">=</span> beta_star</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>            lp   <span class="op">=</span> lp_star</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>            accept <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>        draws[t] <span class="op">=</span> beta</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> draws, accept <span class="op">/</span> n_iter</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'Step'</span><span class="sc">:&gt;6}</span><span class="ss">  </span><span class="sc">{</span><span class="st">'Accept Rate'</span><span class="sc">:&gt;12}</span><span class="ss">  </span><span class="sc">{</span><span class="st">'Status'</span><span class="sc">:&gt;20}</span><span class="ss">"</span>)</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> step <span class="kw">in</span> [<span class="fl">0.04</span>, <span class="fl">0.06</span>, <span class="fl">0.07</span>, <span class="fl">0.08</span>, <span class="fl">0.09</span>, <span class="fl">0.10</span>, <span class="fl">0.12</span>]:</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>    _, r <span class="op">=</span> mh_sampler(result.x, <span class="dv">3000</span>, step)</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>    status <span class="op">=</span> <span class="st">"target range"</span> <span class="cf">if</span> <span class="fl">0.25</span> <span class="op">&lt;=</span> r <span class="op">&lt;=</span> <span class="fl">0.40</span> <span class="cf">else</span> (<span class="st">"too high — reduce step"</span> <span class="cf">if</span> r <span class="op">&gt;</span> <span class="fl">0.40</span> <span class="cf">else</span> <span class="st">"too low — increase step"</span>)</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>step<span class="sc">:&gt;4}</span><span class="ss">    </span><span class="sc">{</span>r<span class="sc">:&gt;10.3f}</span><span class="ss">    </span><span class="sc">{</span>status<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Step   Accept Rate                Status
+  0.04         0.597    too high — reduce step
+  0.06         0.421    too high — reduce step
+  0.07         0.347    target range
+  0.08         0.288    target range
+  0.09         0.238    too low — increase step
+   0.1         0.191    too low — increase step
+  0.12         0.121    too low — increase step</code></pre>
+</div>
+</div>
+<div id="9758e0b3" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>STEP    <span class="op">=</span> <span class="fl">0.08</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>N_ITER  <span class="op">=</span> <span class="dv">20_000</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>BURN_IN <span class="op">=</span> <span class="dv">5_000</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>draws_all, accept_rate <span class="op">=</span> mh_sampler(result.x, N_ITER, STEP)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>draws <span class="op">=</span> draws_all[BURN_IN:]</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Iterations     : </span><span class="sc">{</span>N_ITER<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Burn-in        : </span><span class="sc">{</span>BURN_IN<span class="sc">}</span><span class="ss">  (first 25%)"</span>)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Kept draws     : </span><span class="sc">{</span><span class="bu">len</span>(draws)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Acceptance rate: </span><span class="sc">{</span>accept_rate<span class="sc">:.3f}</span><span class="ss">  (target: 0.25 – 0.40)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Iterations     : 20000
+Burn-in        : 5000  (first 25%)
+Kept draws     : 15000
+Acceptance rate: 0.291  (target: 0.25 – 0.40)</code></pre>
+</div>
+</div>
+<div id="77c0159c" class="cell" data-execution_count="13">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">3</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="fl">6.5</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>plot_params <span class="op">=</span> [</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span>, <span class="st">'β₂  SQL (464)'</span>),</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">4</span>, <span class="st">'β₅  Biz Analytics (453)'</span>),</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">8</span>, <span class="st">'β₉  Mktg Analytics (495)'</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, (col_idx, name) <span class="kw">in</span> <span class="bu">zip</span>(axes, plot_params):</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    ax.plot(draws[:, col_idx], linewidth<span class="op">=</span><span class="fl">0.35</span>, alpha<span class="op">=</span><span class="fl">0.75</span>, color<span class="op">=</span><span class="st">'steelblue'</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    pmean <span class="op">=</span> np.mean(draws[:, col_idx])</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    ax.axhline(pmean, color<span class="op">=</span><span class="st">'firebrick'</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>, linestyle<span class="op">=</span><span class="st">'--'</span>,</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>               label<span class="op">=</span><span class="ss">f'Posterior mean = </span><span class="sc">{</span>pmean<span class="sc">:.3f}</span><span class="ss">'</span>)</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(name, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    ax.legend(fontsize<span class="op">=</span><span class="dv">8</span>, loc<span class="op">=</span><span class="st">'upper right'</span>)</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> spine <span class="kw">in</span> [<span class="st">'top'</span>, <span class="st">'right'</span>]:</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>        ax.spines[spine].set_visible(<span class="va">False</span>)</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>axes[<span class="op">-</span><span class="dv">1</span>].set_xlabel(<span class="st">'Iteration (post burn-in)'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">'MCMC Trace Plots — "fuzzy caterpillar" shape indicates convergence'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'trace_plots.png'</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw4_maxdiff_files/figure-html/cell-14-output-1.png" width="1284" height="832" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The trace plots fluctuate around stable means after burn-in, without a visible upward or downward drift. This suggests that the chain is mixing adequately for the purposes of this assignment.</p>
+<div id="c43d4358" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>draws_full     <span class="op">=</span> np.concatenate([np.zeros((<span class="bu">len</span>(draws), <span class="dv">1</span>)), draws], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>post_mean      <span class="op">=</span> np.mean(draws_full, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>post_lo        <span class="op">=</span> np.percentile(draws_full, <span class="fl">2.5</span>,  axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>post_hi        <span class="op">=</span> np.percentile(draws_full, <span class="fl">97.5</span>, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>post_sd        <span class="op">=</span> np.std(draws_full, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>shares_draws   <span class="op">=</span> np.apply_along_axis(<span class="kw">lambda</span> b: np.exp(b) <span class="op">/</span> np.exp(b).<span class="bu">sum</span>(), <span class="dv">1</span>, draws_full)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>post_shares    <span class="op">=</span> np.mean(shares_draws, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>post_shares_lo <span class="op">=</span> np.percentile(shares_draws, <span class="fl">2.5</span>,  axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>post_shares_hi <span class="op">=</span> np.percentile(shares_draws, <span class="fl">97.5</span>, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>bayes_rank     <span class="op">=</span> (<span class="op">-</span>post_shares).argsort().argsort() <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>bayes_df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Item'</span>:       <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>),</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'label'</span>:      [short_labels[i] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>)],</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'post_mean'</span>:  post_mean,</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ci_lo'</span>:      post_lo,</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ci_hi'</span>:      post_hi,</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'post_share'</span>: post_shares,</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'share_lo'</span>:   post_shares_lo,</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'share_hi'</span>:   post_shares_hi,</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bayes_rank'</span>: bayes_rank</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>}).sort_values(<span class="st">'bayes_rank'</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>disp <span class="op">=</span> bayes_df.copy()</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>disp[<span class="st">'Post. Mean β'</span>] <span class="op">=</span> disp[<span class="st">'post_mean'</span>].<span class="bu">map</span>(<span class="st">'</span><span class="sc">{:+.3f}</span><span class="st">'</span>.<span class="bu">format</span>)</span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>disp[<span class="st">'95% CI'</span>]       <span class="op">=</span> disp.<span class="bu">apply</span>(<span class="kw">lambda</span> r: <span class="ss">f"[</span><span class="sc">{</span>r<span class="sc">.</span>ci_lo<span class="sc">:+.3f}</span><span class="ss">, </span><span class="sc">{</span>r<span class="sc">.</span>ci_hi<span class="sc">:+.3f}</span><span class="ss">]"</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>disp[<span class="st">'Post. Share'</span>]  <span class="op">=</span> disp[<span class="st">'post_share'</span>].<span class="bu">map</span>(<span class="st">'</span><span class="sc">{:.4f}</span><span class="st">'</span>.<span class="bu">format</span>)</span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>disp[<span class="st">'Share 95% CI'</span>] <span class="op">=</span> disp.<span class="bu">apply</span>(<span class="kw">lambda</span> r: <span class="ss">f"[</span><span class="sc">{</span>r<span class="sc">.</span>share_lo<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>r<span class="sc">.</span>share_hi<span class="sc">:.3f}</span><span class="ss">]"</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(disp[[<span class="st">'Item'</span>,<span class="st">'label'</span>,<span class="st">'Post. Mean β'</span>,<span class="st">'95% CI'</span>,<span class="st">'Post. Share'</span>,<span class="st">'Share 95% CI'</span>,<span class="st">'bayes_rank'</span>]].to_string(index<span class="op">=</span><span class="va">False</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> Item                    label Post. Mean β           95% CI Post. Share   Share 95% CI  bayes_rank
+    9     Mktg Analytics (495)       +1.640 [+1.348, +1.915]      0.2847 [0.239, 0.331]           1
+    5      Biz Analytics (453)       +0.750 [+0.485, +1.003]      0.1170 [0.096, 0.140]           2
+    7 Customer Analytics (455)       +0.657 [+0.378, +0.926]      0.1067 [0.087, 0.129]           3
+    4         Large Data (452)       +0.563 [+0.306, +0.840]      0.0971 [0.079, 0.117]           4
+    8           Capstone (454)       +0.448 [+0.183, +0.713]      0.0866 [0.071, 0.105]           5
+    2                SQL (464)       +0.445 [+0.185, +0.703]      0.0863 [0.071, 0.103]           6
+   10          Biz Intel (457)       +0.241 [-0.020, +0.493]      0.0704 [0.058, 0.086]           7
+    1            AI Math (403)       +0.000 [+0.000, +0.000]      0.0553 [0.046, 0.066]           8
+    3       Mktg/Fin/Ops (451)       -0.057 [-0.314, +0.227]      0.0523 [0.042, 0.064]           9
+    6         Consulting (444)       -0.240 [-0.501, +0.014]      0.0435 [0.035, 0.053]          10</code></pre>
+</div>
+</div>
+<div id="bf1e8735" class="cell" data-execution_count="15">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="fl">5.5</span>))</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>bs <span class="op">=</span> bayes_df.sort_values(<span class="st">'post_share'</span>, ascending<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>y  <span class="op">=</span> np.arange(<span class="bu">len</span>(bs))</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>ax.barh(y, bs[<span class="st">'post_share'</span>], color<span class="op">=</span><span class="st">'#4dac26'</span>, alpha<span class="op">=</span><span class="fl">0.8</span>, height<span class="op">=</span><span class="fl">0.55</span>, label<span class="op">=</span><span class="st">'Posterior mean share'</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>xerr_lo <span class="op">=</span> bs[<span class="st">'post_share'</span>].values <span class="op">-</span> bs[<span class="st">'share_lo'</span>].values</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>xerr_hi <span class="op">=</span> bs[<span class="st">'share_hi'</span>].values   <span class="op">-</span> bs[<span class="st">'post_share'</span>].values</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>ax.errorbar(bs[<span class="st">'post_share'</span>], y, xerr<span class="op">=</span>[xerr_lo, xerr_hi],</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>            fmt<span class="op">=</span><span class="st">'none'</span>, ecolor<span class="op">=</span><span class="st">'#333'</span>, elinewidth<span class="op">=</span><span class="dv">2</span>, capsize<span class="op">=</span><span class="dv">5</span>, label<span class="op">=</span><span class="st">'95% Credible Interval'</span>)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(y)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels(bs[<span class="st">'label'</span>].values, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="dv">1</span><span class="op">/</span><span class="dv">10</span>, color<span class="op">=</span><span class="st">'gray'</span>, linewidth<span class="op">=</span><span class="fl">0.9</span>, linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Preference Share'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'MNL Preference Shares — Bayesian Estimation</span><span class="ch">\n</span><span class="st">(error bars = 95</span><span class="sc">% c</span><span class="st">redible intervals)'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'bayes_shares_plot.png'</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw4_maxdiff_files/figure-html/cell-16-output-1.png" width="1153" height="701" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="c01035b1" class="cell" data-execution_count="16">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'Course'</span><span class="sc">:&lt;30}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'β MLE'</span><span class="sc">:&gt;8}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'SE MLE'</span><span class="sc">:&gt;8}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'β Bayes'</span><span class="sc">:&gt;8}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'SD Bayes'</span><span class="sc">:&gt;9}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'|Δβ|'</span><span class="sc">:&gt;6}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'|ΔSD|'</span><span class="sc">:&gt;6}</span><span class="ss">"</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">80</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>short_labels[i<span class="op">+</span><span class="dv">1</span>]<span class="sc">:&lt;30}</span><span class="ss"> </span><span class="sc">{</span>beta_mle[i]<span class="sc">:&gt;+8.3f}</span><span class="ss"> </span><span class="sc">{</span>se_mle[i]<span class="sc">:&gt;8.3f}</span><span class="ss"> "</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"</span><span class="sc">{</span>post_mean[i]<span class="sc">:&gt;+8.3f}</span><span class="ss"> </span><span class="sc">{</span>post_sd[i]<span class="sc">:&gt;9.3f}</span><span class="ss"> "</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"</span><span class="sc">{</span><span class="bu">abs</span>(post_mean[i]<span class="op">-</span>beta_mle[i])<span class="sc">:&gt;6.4f}</span><span class="ss"> </span><span class="sc">{</span><span class="bu">abs</span>(post_sd[i]<span class="op">-</span>se_mle[i])<span class="sc">:&gt;6.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Course                            β MLE   SE MLE  β Bayes  SD Bayes   |Δβ|  |ΔSD|
+--------------------------------------------------------------------------------
+AI Math (403)                    +0.000    0.000   +0.000     0.000 0.0000 0.0000
+SQL (464)                        +0.438    0.137   +0.445     0.134 0.0067 0.0034
+Mktg/Fin/Ops (451)               -0.067    0.139   -0.057     0.138 0.0101 0.0012
+Large Data (452)                 +0.555    0.140   +0.563     0.139 0.0075 0.0008
+Biz Analytics (453)              +0.744    0.142   +0.750     0.135 0.0055 0.0066
+Consulting (444)                 -0.239    0.141   -0.240     0.132 0.0012 0.0083
+Customer Analytics (455)         +0.656    0.142   +0.657     0.143 0.0010 0.0008
+Capstone (454)                   +0.443    0.140   +0.448     0.140 0.0048 0.0003
+Mktg Analytics (495)             +1.630    0.146   +1.640     0.148 0.0101 0.0017
+Biz Intel (457)                  +0.236    0.137   +0.241     0.130 0.0051 0.0073</code></pre>
+</div>
+</div>
+<p><strong>Bayes vs.&nbsp;MLE.</strong> Posterior means are within 0.013 of the MLE point estimates for every item, and posterior standard deviations are within 0.015 of the MLE standard errors. This close agreement is expected: with 1,360 effective observations and a diffuse prior, the likelihood dominates and the two methods must converge. The small residual differences reflect two sources: (1) the prior exerts a mild shrinkage on estimates toward zero, pulling the largest <span class="math inline">\(\hat\beta\)</span> (Mktg Analytics, 1.630) very slightly downward; and (2) the posterior standard deviations contain Monte Carlo noise from the finite number of MCMC draws.</p>
+<hr>
+</section>
+<section id="comparing-the-three-methods" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-the-three-methods">Comparing the Three Methods</h2>
+<div id="824337e2" class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>counts_score_dict <span class="op">=</span> cnt.set_index(<span class="st">'Item'</span>)[<span class="st">'score'</span>].to_dict()</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>counts_rank_dict  <span class="op">=</span> cnt.set_index(<span class="st">'Item'</span>)[<span class="st">'counts_rank'</span>].to_dict()</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Item'</span>:         <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>),</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'label'</span>:        [short_labels[i] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>)],</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'counts_score'</span>: [counts_score_dict[i]  <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>)],</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'counts_rank'</span>:  [counts_rank_dict[i]   <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>)],</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'mle_share'</span>:    shares_mle,</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'mle_rank'</span>:     mle_rank,</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bayes_share'</span>:  post_shares,</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bayes_rank'</span>:   bayes_rank,</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>}).sort_values(<span class="st">'mle_rank'</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>disp <span class="op">=</span> summary.copy()</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>disp[<span class="st">'counts_score'</span>] <span class="op">=</span> disp[<span class="st">'counts_score'</span>].<span class="bu">map</span>(<span class="st">'</span><span class="sc">{:+.3f}</span><span class="st">'</span>.<span class="bu">format</span>)</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>disp[<span class="st">'mle_share'</span>]    <span class="op">=</span> disp[<span class="st">'mle_share'</span>].<span class="bu">map</span>(<span class="st">'</span><span class="sc">{:.4f}</span><span class="st">'</span>.<span class="bu">format</span>)</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>disp[<span class="st">'bayes_share'</span>]  <span class="op">=</span> disp[<span class="st">'bayes_share'</span>].<span class="bu">map</span>(<span class="st">'</span><span class="sc">{:.4f}</span><span class="st">'</span>.<span class="bu">format</span>)</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>disp.columns <span class="op">=</span> [<span class="st">'Item'</span>,<span class="st">'Course'</span>,<span class="st">'Counts Score'</span>,<span class="st">'Counts Rank'</span>,<span class="st">'MLE Share'</span>,<span class="st">'MLE Rank'</span>,<span class="st">'Bayes Share'</span>,<span class="st">'Bayes Rank'</span>]</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(disp.to_string(index<span class="op">=</span><span class="va">False</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> Item                   Course Counts Score  Counts Rank MLE Share  MLE Rank Bayes Share  Bayes Rank
+    9     Mktg Analytics (495)       +0.493            1    0.2839         1      0.2847           1
+    5      Biz Analytics (453)       +0.141            2    0.1171         2      0.1170           2
+    7 Customer Analytics (455)       +0.120            3    0.1072         3      0.1067           3
+    4         Large Data (452)       +0.062            4    0.0969         4      0.0971           4
+    8           Capstone (454)       +0.011            5    0.0867         5      0.0866           5
+    2                SQL (464)       -0.004            6    0.0862         6      0.0863           6
+   10          Biz Intel (457)       -0.120            7    0.0704         7      0.0704           7
+    1            AI Math (403)       -0.209            8    0.0556         8      0.0553           8
+    3       Mktg/Fin/Ops (451)       -0.213            9    0.0520         9      0.0523           9
+    6         Consulting (444)       -0.292           10    0.0438        10      0.0435          10</code></pre>
+</div>
+</div>
+<div id="5b71314e" class="cell" data-execution_count="18">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="fl">5.5</span>))</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>cmap      <span class="op">=</span> matplotlib.colormaps[<span class="st">'tab10'</span>]</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>color_map <span class="op">=</span> {item: cmap(i) <span class="cf">for</span> i, item <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>))}</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hbar(ax, items, values, title, xlabel, color_map, vline<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    y      <span class="op">=</span> np.arange(<span class="bu">len</span>(items))</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    colors <span class="op">=</span> [color_map[i] <span class="cf">for</span> i <span class="kw">in</span> items]</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    ax.barh(y, values, color<span class="op">=</span>colors, alpha<span class="op">=</span><span class="fl">0.85</span>, height<span class="op">=</span><span class="fl">0.55</span>)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    ax.set_yticks(y)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    ax.set_yticklabels([short_labels[i] <span class="cf">for</span> i <span class="kw">in</span> items], fontsize<span class="op">=</span><span class="fl">8.5</span>)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(xlabel, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    ax.set_title(title, fontsize<span class="op">=</span><span class="dv">11</span>, pad<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    ax.invert_yaxis()</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> vline <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>        ax.axvline(vline, color<span class="op">=</span><span class="st">'gray'</span>, linewidth<span class="op">=</span><span class="fl">0.8</span>, linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> spine <span class="kw">in</span> [<span class="st">'top'</span>, <span class="st">'right'</span>]:</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>        ax.spines[spine].set_visible(<span class="va">False</span>)</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>c_order <span class="op">=</span> cnt.sort_values(<span class="st">'counts_rank'</span>)[<span class="st">'Item'</span>].values</span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>hbar(axes[<span class="dv">0</span>], c_order, [counts_score_dict[i] <span class="cf">for</span> i <span class="kw">in</span> c_order],</span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>     <span class="st">'① Counts Analysis'</span>, <span class="st">'Counts Score'</span>, color_map, vline<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'black'</span>, linewidth<span class="op">=</span><span class="fl">0.8</span>, linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>m_order <span class="op">=</span> mle_df.sort_values(<span class="st">'mle_rank'</span>)[<span class="st">'Item'</span>].values</span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>hbar(axes[<span class="dv">1</span>], m_order, [shares_mle[i<span class="op">-</span><span class="dv">1</span>] <span class="cf">for</span> i <span class="kw">in</span> m_order],</span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>     <span class="st">'② MNL — MLE'</span>, <span class="st">'Preference Share'</span>, color_map, vline<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>b_order <span class="op">=</span> bayes_df.sort_values(<span class="st">'bayes_rank'</span>)[<span class="st">'Item'</span>].values</span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a>hbar(axes[<span class="dv">2</span>], b_order, [post_shares[i<span class="op">-</span><span class="dv">1</span>] <span class="cf">for</span> i <span class="kw">in</span> b_order],</span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a>     <span class="st">'③ MNL — Bayesian'</span>, <span class="st">'Preference Share'</span>, color_map, vline<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">'All Three Methods Side by Side</span><span class="ch">\n</span><span class="st">(same color = same course across panels)'</span>, fontsize<span class="op">=</span><span class="dv">12</span>, y<span class="op">=</span><span class="fl">1.01</span>)</span>
+<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">'comparison_plot.png'</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
+<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw4_maxdiff_files/figure-html/cell-19-output-1.png" width="2063" height="726" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Where all three methods agree.</strong> The rankings are identical across all three methods — every course occupies the same position whether we use counts, MLE, or Bayesian estimation. The top and bottom are especially stable: Mktg Analytics (495) leads by a wide margin in every method, and Consulting (444) is last in all three. This level of consistency reflects a dataset where the preference signal is strong relative to the noise.</p>
+<p><strong>Where they might disagree (and why).</strong> With a weaker signal — fewer respondents, fewer tasks, or items with more similar utilities — we would expect the middle of the ranking (roughly ranks 4–7) to shuffle across methods. In this dataset, Capstone (454), SQL (464), and Large Data (452) have fairly similar utilities, and a smaller sample might reorder them differently.</p>
+<p><strong>What MNL adds over counts.</strong> MNL uses the full choice-set structure: each best and worst decision is evaluated relative to the other items that appeared on the same screen. Counts uses exposure-adjusted summaries, but it does not model the probability of choosing one item over the specific alternatives shown in that task. This makes MNL statistically more efficient and produces preference shares with a natural probability interpretation, along with standard errors that support hypothesis testing.</p>
+<p><strong>What Bayes adds over MLE.</strong> The key advantage of the Bayesian approach is that uncertainty on derived quantities like preference shares is immediately available: for each MCMC draw, compute the softmax transformation and take percentiles across draws. Doing the same thing from MLE requires the delta method, which is approximate and more complex to implement. Bayesian estimation also extends naturally to hierarchical models that estimate individual-level preferences — a straightforward extension that is considerably harder to achieve with MLE.</p>
+<hr>
+</section>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<p><strong>Substantive findings.</strong> Students in this MSBA cohort most strongly prefer <strong>Mktg Analytics (495)</strong>, which receives a preference share of roughly 28% — nearly three times the equal-share benchmark of 10%. Biz Analytics (453, ≈11.7%) and Customer Analytics (455, ≈10.7%) follow in second and third. The common thread among the top-ranked courses is a focus on applied data analysis with direct business relevance. At the other end, <strong>Consulting (444)</strong> is the least preferred course by a clear margin, scoring below all others across all three methods. Mktg/Fin/Ops (451) and AI Math (403) also rank near the bottom.</p>
+<p>One notable finding is <strong>SQL (464)</strong>. Despite being one of the most practically valued skills in the job market, it lands in sixth place with a near-zero counts score. This may reflect a perception among MSBA students that SQL is a necessary baseline rather than a differentiating course — they may feel they already know it or can learn it independently, and so it neither excites nor deters them relative to more specialized offerings.</p>
+<p><strong>Methodological takeaways.</strong> The three approaches serve different purposes:</p>
+<ul>
+<li><em>Counts</em> is the right tool for a quick descriptive summary. It requires no modeling assumptions, is easy to communicate to a non-technical audience, and produces a result any manager can act on immediately.</li>
+<li><em>MLE MNL</em> is appropriate when rigorous point estimates with classical standard errors are needed — for example, when reporting to a committee that expects confidence intervals or significance tests.</li>
+<li><em>Bayesian MNL</em> is the best choice when uncertainty on derived quantities (preference shares, market-share simulations, “what if we added a new course?” scenarios) is important, or when the ultimate goal is a hierarchical model that estimates individual-level preferences and accounts for heterogeneity across students.</li>
+</ul>
+<p><strong>Caveats.</strong> The survey was administered to a self-selected sample of MSBA students, so results may not generalize to future cohorts or other programs. Preferences are likely influenced by factors not captured here: which courses a student has already completed, their academic background (engineering vs.&nbsp;business), and where they are in the program. MaxDiff also measures only relative preferences — it cannot detect a situation where all courses are uniformly liked or disliked.</p>
+<p><strong>Next steps.</strong> If time allowed, the most valuable extension would be a <strong>Hierarchical Bayes MNL</strong> that estimates a separate <span class="math inline">\(\boldsymbol{\beta}\)</span> vector for each respondent, drawn from a population-level distribution. This would reveal whether student preferences are homogeneous or whether meaningful subgroups exist — information that would be directly useful for advising, course scheduling, and curriculum design.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
